@@ -48,90 +48,126 @@ export const SlateInputModal: React.FC<SlateInputModalProps> = ({
     }
     const result = parseSlateTextLocally(rawText);
     onApplySlate(result);
-    setSuccessMsg('⚡ Slate parsed and agenda updated successfully!');
-    setTimeout(() => {
-      onClose();
-    }, 1000);
+    setSuccessMsg('⚡ Slate parsed and agenda updated!');
+    setTimeout(() => onClose(), 1000);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn no-print">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
-        {/* Modal Header */}
-        <div className="bg-[#004165] text-white px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between border-b border-[#008080]">
-          <div className="flex items-center space-x-2.5">
-            <div className="bg-[#008080] p-1.5 rounded-lg text-white">
-              <FileText className="w-5 h-5" />
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 no-print"
+      style={{ background: 'rgba(30,58,95,0.55)', backdropFilter: 'blur(4px)' }}
+    >
+      <div
+        className="max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden"
+        style={{
+          background: 'var(--bg)',
+          border: '1px solid var(--border)',
+          borderRadius: '14px',
+          boxShadow: '0 8px 40px 0 rgba(30,58,95,0.18)',
+        }}
+      >
+        {/* Header */}
+        <div
+          className="px-4 sm:px-6 py-3.5 flex items-center justify-between"
+          style={{ background: 'var(--navy)', borderBottom: '1px solid #2d5080' }}
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 rounded-lg" style={{ background: 'rgba(255,255,255,0.12)' }}>
+              <FileText className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="font-bold text-base sm:text-lg leading-tight">Import Role Players Slate</h2>
-              <p className="text-xs text-sky-200">Paste your WhatsApp / Email nomination announcement below</p>
+              <h2 className="font-bold text-base text-white leading-tight">Import Nomination Slate</h2>
+              <p className="text-xs" style={{ color: '#a8c4e0' }}>
+                Paste your WhatsApp / email announcement
+              </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-white/10 transition cursor-pointer"
+            className="p-1 rounded-lg transition cursor-pointer"
+            style={{ color: '#a8c4e0' }}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Body */}
+        {/* Body */}
         <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Paste Nomination Sheet Text:
+              <label
+                className="block text-xs font-bold uppercase tracking-wider"
+                style={{ color: 'var(--text2)' }}
+              >
+                Nomination Sheet Text
               </label>
               <button
                 onClick={handlePasteFromClipboard}
-                className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-1.5 rounded-lg border border-slate-300 transition cursor-pointer"
-                title="Paste from clipboard"
+                className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer"
+                style={{
+                  background: 'var(--bg2)',
+                  border: '1px solid var(--border2)',
+                  color: 'var(--text2)',
+                }}
               >
                 <ClipboardPaste className="w-3.5 h-3.5" />
-                <span>Paste</span>
+                Paste
               </button>
             </div>
             <textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
-              placeholder="Paste the role players nomination sheet here (e.g. TMOD: Shantanu, General Evaluator: Prasoon, Speaker 1: Harsh Raweel...)"
+              placeholder="Paste the role players nomination sheet here…"
               rows={10}
-              className="w-full font-mono text-xs sm:text-sm p-3 sm:p-3.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008080] focus:border-transparent bg-slate-50 text-slate-800 resize-y leading-relaxed shadow-inner"
+              className="w-full font-mono text-xs sm:text-sm p-3 sm:p-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3A6BA8] resize-y leading-relaxed"
+              style={{
+                border: '1px solid var(--border)',
+                background: 'var(--bg2)',
+                color: 'var(--text)',
+              }}
             />
           </div>
 
-          {/* Status Messages */}
           {errorMsg && (
-            <div className="flex items-center gap-2 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium animate-shake">
+            <div
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium"
+              style={{ background: '#fff5f5', border: '1px solid #fecaca', color: '#b91c1c' }}
+            >
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
-              <span>{errorMsg}</span>
+              {errorMsg}
             </div>
           )}
 
           {successMsg && (
-            <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium">
-              <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-600" />
-              <span>{successMsg}</span>
+            <div
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium"
+              style={{ background: 'var(--green-bg)', border: '1px solid #bbf7d0', color: 'var(--green)' }}
+            >
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              {successMsg}
             </div>
           )}
         </div>
 
-        {/* Modal Footer */}
-        <div className="bg-slate-50 px-4 sm:px-6 py-3.5 sm:py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-end gap-2.5 sm:gap-3">
+        {/* Footer */}
+        <div
+          className="px-4 sm:px-6 py-3.5 flex flex-col sm:flex-row items-center justify-end gap-2.5 sm:gap-3"
+          style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)' }}
+        >
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 rounded-xl hover:bg-slate-200 transition cursor-pointer order-2 sm:order-1"
+            className="w-full sm:w-auto px-4 py-2 text-sm font-semibold rounded-xl transition cursor-pointer order-2 sm:order-1"
+            style={{ color: 'var(--text2)' }}
           >
             Cancel
           </button>
-          
           <button
             onClick={handleParse}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2 bg-gradient-to-r from-[#008080] to-[#004165] hover:from-[#006666] hover:to-[#002e47] text-white font-bold text-xs sm:text-sm rounded-xl transition shadow-md hover:scale-105 active:scale-95 cursor-pointer order-1 sm:order-2"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2 text-white font-bold text-xs sm:text-sm rounded-xl transition cursor-pointer order-1 sm:order-2"
+            style={{ background: 'var(--navy)' }}
           >
-            <Zap className="w-4 h-4 text-amber-300" />
-            <span>Extract & Populate Slate</span>
+            <Zap className="w-4 h-4" style={{ color: '#e8be6a' }} />
+            Extract & Populate Slate
           </button>
         </div>
       </div>

@@ -1,23 +1,55 @@
 @import "tailwindcss";
 
+/* ── Design tokens ── */
+:root {
+  --bg:         #ffffff;
+  --bg2:        #f8f8f6;
+  --bg3:        #f2f1ee;
+  --border:     #e8e6e2;
+  --border2:    #d0cdc7;
+  --text:       #1a1917;
+  --text2:      #5c5a56;
+  --text3:      #9c9a96;
+  --gold:       #b8860b;
+  --gold-bg:    #fef9ec;
+  --navy:       #1E3A5F;
+  --blue:       #3A6BA8;
+  --green:      #166534;
+  --green-bg:   #f0fdf4;
+}
+
 @layer base {
   body {
-    @apply bg-slate-100 text-slate-800 font-sans antialiased;
+    background-color: var(--bg2);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
-/* Ensure agenda HTML container never clips its content */
+/* ── Agenda HTML container ── */
 .agenda-html-container {
   width: 100%;
   overflow: visible;
 }
 
-/* Custom print styling for pixel-perfect PDF export */
+/* ── Print styles ── */
 @media print {
   @page {
     size: A4 portrait;
-    /* 10mm gives a clean professional margin without browser double-padding */
-    margin: 10mm 10mm 10mm 10mm;
+    margin: 10mm 0;
+    /* suppress browser-injected date/title/URL headers and footers */
+    margin-top: 10mm;
+    @top-left   { content: none; }
+    @top-center { content: none; }
+    @top-right  { content: none; }
+    @bottom-left   { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right  { content: none; }
+  }
+
+  @page :first {
+    margin-top: 0;
   }
 
   html, body {
@@ -32,7 +64,6 @@
     display: none !important;
   }
 
-  /* Strip all React wrapper padding so only @page margin applies */
   #root,
   #root > div,
   main {
@@ -56,20 +87,17 @@
     max-width: 100% !important;
   }
 
-  /* Force background colors to print (teal banners, table headers) */
+  /* Body content between header and footer gets left/right margin */
+  .print-body-content {
+    padding: 4mm 12mm 8mm 12mm !important;
+  }
+
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
 
-  table {
-    page-break-inside: auto;
-  }
-
-  tr {
-    page-break-inside: avoid;
-    page-break-after: auto;
-  }
+  table { page-break-inside: auto; }
+  tr    { page-break-inside: avoid; page-break-after: auto; }
 }
-

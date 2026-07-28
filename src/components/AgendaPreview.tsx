@@ -17,70 +17,86 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
   const timeline = calculateAgendaTimeline(slate);
 
   return (
-    <div className="print-page bg-white text-slate-900 shadow-xl rounded-lg mx-auto overflow-hidden border border-slate-300 font-sans max-w-[850px] transition-all">
-
-      {/* ── Header: matches the original doc's teal banner ── */}
-      <div className="bg-[#1a6b6b] text-white px-6 py-4 flex items-center justify-between gap-4">
-
-        {/* Left: TI emblem + club name */}
+    <div
+      className="print-page bg-white mx-auto overflow-hidden font-sans max-w-[850px] transition-all"
+      style={{
+        boxShadow: '0 4px 24px 0 rgba(30,58,95,0.10)',
+        border: '1px solid var(--border)',
+        borderRadius: '10px',
+      }}
+    >
+      {/* ── Header ── */}
+      <div
+        className="px-6 py-4 flex items-center justify-between gap-4"
+        style={{ backgroundColor: 'var(--navy)' }}
+      >
+        {/* Left: logo + club name */}
         <div className="flex items-center gap-3 flex-shrink-0">
-          {/* TI Emblem — using uploaded TMLogo.png */}
-          <img 
-            src={tmLogo} 
-            alt="Toastmasters International" 
-            className="w-12 h-12 rounded-full object-contain bg-white border-2 border-[#f59e0b] flex-shrink-0"
+          <img
+            src={tmLogo}
+            alt="Toastmasters International"
+            className="w-30 h-30 rounded-full object-contain flex-shrink-0"
           />
-          {/* Club name */}
           <div>
-            <p className="text-[11px] font-bold tracking-widest text-teal-200 uppercase leading-none mb-0.5">
+            <p
+              className="text-[10px] font-semibold tracking-widest uppercase leading-none mb-0.5"
+              style={{ color: '#a8c4e0' }}
+            >
               {slate.clubName || 'CRG TOASTMASTERS'}
             </p>
             <p className="text-base font-extrabold tracking-wide uppercase text-white leading-tight font-serif">
               {slate.clubName || 'CRG TOASTMASTERS'}
             </p>
-            <p className="text-[11px] text-amber-300 font-semibold italic leading-none mt-0.5">
+            <p
+              className="text-[11px] font-semibold italic leading-none mt-0.5"
+              style={{ color: '#e8be6a' }}
+            >
               {slate.clubSubtitle || 'Run by Runners'}
             </p>
           </div>
         </div>
 
         {/* Right: time & venue */}
-        <div className="text-right text-xs leading-snug text-white max-w-xs">
-          <p className="font-bold text-sm leading-tight">
+        <div className="text-right leading-snug max-w-xs">
+          <p className="font-bold text-sm text-white leading-tight">
             Day: Sunday, Time: {slate.startTime} to {slate.endTime}
           </p>
-          <p className="text-teal-100 mt-1 leading-snug text-[11px]">
+          <p className="mt-1 text-[11px]" style={{ color: '#a8c4e0' }}>
             {slate.venue}
           </p>
         </div>
       </div>
 
-      {/* Thin amber rule under header — matches the gold line in the doc */}
-      <div className="h-1 bg-[#f59e0b]" />
+      {/* Gold rule */}
+      <div className="h-[3px]" style={{ backgroundColor: 'var(--gold)' }} />
 
-      {/* ── Body: the document HTML ── */}
+      {/* ── Body ── */}
+      <div className="print-body-content">
+        <div
+          className="agenda-html-container"
+          dangerouslySetInnerHTML={{ __html: renderAgendaHtml(slate, timeline) }}
+        />
+      </div>
+
+      {/* Gold rule */}
+      <div className="h-[3px]" style={{ backgroundColor: 'var(--gold)' }} />
+
+      {/* ── Footer ── */}
       <div
-        className="agenda-html-container"
-        dangerouslySetInnerHTML={{ __html: renderAgendaHtml(slate, timeline) }}
-      />
-
-      {/* Thin amber rule above footer */}
-      <div className="h-1 bg-[#f59e0b]" />
-
-      {/* ── Footer: subtle mission strip ── */}
-      <div className="bg-[#1a6b6b] text-white px-6 py-3 flex items-start gap-3">
+        className="px-6 py-3 flex items-start gap-3"
+        style={{ backgroundColor: 'var(--navy)' }}
+      >
         <img
           src={tmLogo}
           alt="TI"
-          className="w-7 h-7 rounded-full object-contain bg-white border border-amber-400 flex-shrink-0 mt-0.5"
+          className="w-6 h-6 rounded-full object-contain flex-shrink-0 mt-0.5"
         />
-        <p className="text-[10px] leading-relaxed text-teal-100">
-          <span className="font-bold text-amber-300">Club Mission: </span>
+        <p className="text-[10px] leading-relaxed" style={{ color: '#a8c4e0' }}>
+          <span className="font-bold" style={{ color: '#e8be6a' }}>Club Mission: </span>
           {slate.clubMission ||
             'We provide a supportive and positive learning experience in which members are empowered to develop communication and leadership skills, resulting in greater self confidence and personal growth'}
         </p>
       </div>
-
     </div>
   );
 };

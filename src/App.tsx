@@ -84,45 +84,48 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans text-slate-800">
+    <div className="min-h-screen flex flex-col font-sans" style={{ background: 'var(--bg2)', color: 'var(--text)' }}>
       {/* Top Navbar */}
-      <Navbar
-        slate={slate}
-      />
+      <Navbar slate={slate} />
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-2.5 sm:p-6 lg:p-8 flex flex-col">
-        {/* Mobile View Toggle Bar - Only visible when editing is active */}
+        {/* Mobile View Toggle Bar */}
         {showEditorTabs && (
-          <div className="flex lg:hidden bg-slate-200 p-1 rounded-xl mb-4 no-print shadow-inner">
+          <div
+            className="flex lg:hidden p-1 rounded-xl mb-4 no-print"
+            style={{ background: 'var(--bg3)', border: '1px solid var(--border)' }}
+          >
             <button
               onClick={() => setMobileTab('editor')}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer"
+              style={
                 mobileTab === 'editor'
-                  ? 'bg-[#008080] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+                  ? { background: 'var(--navy)', color: '#fff' }
+                  : { color: 'var(--text2)' }
+              }
             >
               <Edit3 className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="truncate">Edit Sections</span>
+              Edit Sections
             </button>
             <button
               onClick={() => setMobileTab('preview')}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer"
+              style={
                 mobileTab === 'preview'
-                  ? 'bg-[#004165] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+                  ? { background: 'var(--navy)', color: '#fff' }
+                  : { color: 'var(--text2)' }
+              }
             >
               <Eye className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="truncate">Live Agenda Preview</span>
+              Live Preview
             </button>
           </div>
         )}
 
         {/* Split Grid Layout */}
         <div className={`grid grid-cols-1 ${showEditorTabs ? 'lg:grid-cols-12' : 'lg:grid-cols-1'} gap-6 items-start flex-1`}>
-          {/* Left Column: Editor (Hidden in print or mobile preview tab) */}
+          {/* Editor */}
           <div
             className={`${showEditorTabs ? 'lg:col-span-5' : 'lg:col-span-1'} h-auto ${showEditorTabs ? 'lg:sticky lg:top-24' : ''} ${
               !showEditorTabs || mobileTab === 'preview' ? 'hidden lg:block' : 'block'
@@ -140,7 +143,7 @@ export default function App() {
             />
           </div>
 
-          {/* Right Column: Live Printable Sheet */}
+          {/* Preview */}
           <div
             className={`${showEditorTabs ? 'lg:col-span-7' : 'lg:col-span-1 max-w-4xl mx-auto w-full'} ${
               showEditorTabs && mobileTab === 'editor' ? 'hidden lg:block' : 'block'
@@ -148,17 +151,22 @@ export default function App() {
           >
             <div className="flex items-center justify-between mb-3 no-print px-1 flex-wrap gap-1">
               <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">
-                  Live Preview • Official Printable Format
+                <span
+                  className="w-2 h-2 rounded-full animate-pulse"
+                  style={{ background: 'var(--green)' }}
+                />
+                <span
+                  className="text-xs font-bold uppercase tracking-wider"
+                  style={{ color: 'var(--text3)' }}
+                >
+                  Live Preview · Printable Format
                 </span>
               </div>
-              <span className="text-xs text-slate-400 font-medium hidden sm:inline">
-                A4 Portrait Mode Ready
+              <span className="text-xs hidden sm:inline" style={{ color: 'var(--text3)' }}>
+                A4 Portrait
               </span>
             </div>
 
-            {/* The Print Sheet */}
             <div className="overflow-x-auto pb-4">
               <AgendaPreview slate={slate} />
             </div>
@@ -166,60 +174,69 @@ export default function App() {
         </div>
       </main>
 
-      {/* Positioned Floating Control Bar (no-print) */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-wrap items-center gap-2 bg-slate-900/95 backdrop-blur-md p-2 rounded-2xl shadow-2xl border border-slate-700 text-white no-print">
-        {/* Toggle Editor Tabs */}
+      {/* Floating Control Bar */}
+      <div
+        className="fixed bottom-6 right-6 z-50 flex flex-wrap items-center gap-2 p-2 rounded-2xl no-print"
+        style={{
+          background: 'var(--navy)',
+          border: '1px solid #2d5080',
+          boxShadow: '0 4px 24px 0 rgba(30,58,95,0.25)',
+        }}
+      >
+        {/* Toggle Editor */}
         <button
           onClick={() => {
             const nextState = !showEditorTabs;
             setShowEditorTabs(nextState);
-            if (nextState) {
-              setMobileTab('editor');
-            } else {
-              setMobileTab('preview');
-            }
+            if (nextState) setMobileTab('editor');
+            else setMobileTab('preview');
           }}
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-sm cursor-pointer ${
-            showEditorTabs ? 'bg-[#008080] text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
-          }`}
-          title="Toggle Speakers, Role Players, Meeting & Time, Officers"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer"
+          style={
+            showEditorTabs
+              ? { background: 'rgba(255,255,255,0.15)', color: '#fff' }
+              : { background: 'rgba(255,255,255,0.08)', color: '#a8c4e0' }
+          }
         >
-          <Sliders className="w-4 h-4 text-[#008080]" />
-          <span>{showEditorTabs ? 'Close Editor ✕' : 'Edit Sections ✏️'}</span>
+          <Sliders className="w-4 h-4" style={{ color: '#e8be6a' }} />
+          {showEditorTabs ? 'Close Editor ✕' : 'Edit Sections ✏️'}
         </button>
 
-        {/* Paste Slate Text */}
+        {/* Paste Slate */}
         <button
           onClick={() => setIsImportModalOpen(true)}
-          className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs sm:text-sm transition shadow-sm cursor-pointer"
-          title="Paste WhatsApp Slate Text"
+          className="flex items-center gap-1.5 font-bold px-3 py-2 rounded-xl text-xs sm:text-sm transition cursor-pointer"
+          style={{ background: 'var(--gold)', color: '#fff' }}
         >
           <FileText className="w-4 h-4" />
           <span className="hidden sm:inline">Paste Slate</span>
         </button>
 
-        {/* Copy WhatsApp Summary */}
+        {/* WhatsApp */}
         <button
           onClick={handleCopyWhatsAppSummary}
-          className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-sky-300 font-bold px-3 py-2 rounded-xl text-xs sm:text-sm border border-slate-700 transition cursor-pointer"
-          title="Copy WhatsApp Summary"
+          className="flex items-center gap-1.5 font-bold px-3 py-2 rounded-xl text-xs sm:text-sm transition cursor-pointer"
+          style={{
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid #2d5080',
+            color: copied ? '#4ade80' : '#a8c4e0',
+          }}
         >
-          {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
           <span className="hidden sm:inline">{copied ? 'Copied!' : 'WhatsApp'}</span>
         </button>
 
-        {/* Print / Export PDF */}
+        {/* Export PDF */}
         <button
           onClick={handlePrint}
-          className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-xs sm:text-sm transition shadow-sm cursor-pointer"
-          title="Export PDF / Print"
+          className="flex items-center gap-1.5 text-white font-bold px-3 py-2 rounded-xl text-xs sm:text-sm transition cursor-pointer"
+          style={{ background: 'var(--green)' }}
         >
           <Printer className="w-4 h-4" />
           <span className="hidden sm:inline">Export PDF</span>
         </button>
       </div>
 
-      {/* Modals */}
       <SlateInputModal
         isOpen={isImportModalOpen}
         onClose={() => setIsImportModalOpen(false)}

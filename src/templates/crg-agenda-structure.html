@@ -2,118 +2,118 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="content-type">
 <style type="text/css">
-  ol { margin: 0; padding: 0; }
-  table td, table th { padding: 0; }
+  * { box-sizing: border-box; }
+  body {
+    background: #fff;
+    color: #111;
+    font-family: Arial, sans-serif;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 10pt 14pt 14pt 14pt;
+  }
 
-  /* Cell styles — fixed pt widths converted to % for fluid layout */
-  .c9  { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 52%; }
-  .c10 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 50%; }
-  .c11 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 50%; }
-  .c13 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 50%; }
-  .c14 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 20%; }
-  .c20 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 28%; }
+  .theme-line {
+    font-style: italic;
+    margin: 0 0 8pt 0;
+    color: #444;
+    font-size: 9.5pt;
+  }
 
-  /* Paragraph styles */
-  .c1  { padding: 0; margin: 0; line-height: 1.3; text-align: left; }
-  .c2  { padding: 0; margin: 0; line-height: 1.15; text-align: left; }
-  .c4  { padding: 0; margin: 0; line-height: 1.15; text-align: center; }
-  .c19 { padding: 4pt 0; margin: 0; line-height: 1.0; text-align: left; height: 4pt; }
-  .c21 { padding: 0; margin: 0; line-height: 1.15; text-align: left; }
-
-  /* Text styles */
-  .c0  { color: #000; font-weight: 400; font-size: 10pt; font-family: Arial, sans-serif; }
-  .c5  { font-size: 10pt; font-family: Arial, sans-serif; }
-  .c8  { font-size: 10pt; font-weight: 400; font-family: Arial, sans-serif; }
-  .c12 { color: #000; font-weight: 700; font-size: 10pt; font-family: Arial, sans-serif; }
-  .c15 { font-size: 10pt; font-family: Arial, sans-serif; }
-  .c16 { color: #000; vertical-align: baseline; font-style: normal; }
-  .c18 { font-weight: 700; font-family: Arial, sans-serif; }
-  .c22 { font-weight: 400; font-size: 11pt; font-family: Arial, sans-serif; }
-  .c23 { font-weight: 700; }
-  .c28 { font-size: 6pt; }
-  .italic { font-style: italic; }
-
-  /* Row heights */
-  .c3  { height: 14pt; }
-  .c6  { height: 0pt; }
-
-  /* Table base */
-  .c7 {
-    border-spacing: 0;
-    border-collapse: collapse;
+  /* ── Agenda table ── */
+  .agenda-table {
     width: 100%;
+    border-collapse: collapse;
     table-layout: fixed;
   }
 
-  /* Document body container — padding controlled by outer wrapper */
-  .c24 {
-    background-color: #fff;
-    width: 100%;
-    padding: 12pt 16pt 16pt 16pt;
-    color: #000;
-    box-sizing: border-box;
-  }
-
-  /* Section labels like "Club officers:", "Role players :", "Agenda :" */
-  .section-label {
+  /* Header */
+  .agenda-table thead tr th {
+    padding: 3pt 4pt 4pt 4pt;
+    font-size: 10pt;
     font-weight: 700;
-    font-size: 10.5pt;
-    font-family: Arial, sans-serif;
-    margin: 8pt 0 3pt 0;
-    color: #000;
+    color: #1a5fa8;
+    text-align: left;
+    border-bottom: 2px solid #1a5fa8;
+    border-top: 2px solid #1a5fa8;
+  }
+  .agenda-table thead tr th.th-time     { width: 115px; }
+  .agenda-table thead tr th.th-program  { }
+  .agenda-table thead tr th.th-acct     { width: 130px; text-align: right; }
+
+  /* ── Main segment row ── */
+  .seg-main td {
+    padding: 5pt 4pt 1pt 4pt;
+    vertical-align: top;
+    border: none;
+    line-height: 1.3;
+  }
+  .seg-main .td-time {
+    font-weight: 700;
+    font-size: 9.5pt;
+    white-space: nowrap;
+    color: #111;
+    /* time column for main rows */
+  }
+  .seg-main .td-program {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: #111;
+  }
+  .seg-main .td-acct {
+    font-weight: 400;
+    font-size: 9.5pt;
+    text-align: right;
+    white-space: nowrap;
+    color: #111;
   }
 
-  /* Table hover for screen only */
-  table.c7 tbody tr:hover td { background-color: #f8fafc; }
+  /* ── Sub-item row ── */
+  .seg-sub td {
+    padding: 1pt 4pt 1pt 4pt;
+    vertical-align: top;
+    border: none;
+    line-height: 1.3;
+  }
+  .seg-sub .td-time {
+    /* empty — no time shown for sub-rows */
+    font-size: 9.5pt;
+  }
+  .seg-sub .td-program {
+    font-weight: 400;
+    font-size: 9.5pt;
+    color: #333;
+    padding-left: 14pt;
+  }
+  .seg-sub .td-acct {
+    font-weight: 400;
+    font-size: 9.5pt;
+    text-align: right;
+    white-space: nowrap;
+    color: #333;
+  }
+
+  /* Spacer between groups */
+  .seg-gap td {
+    padding: 3pt 0 0 0;
+    height: 3pt;
+    border: none;
+  }
 
   @media print {
-    .c24 { padding: 12pt 16pt !important; }
-    table.c7 tbody tr:hover td { background-color: transparent !important; }
+    body { padding: 8pt 12pt !important; }
   }
 </style>
 </head>
-<body class="c24 doc-content">
+<body class="doc-content">
 
-<p class="c1"><span class="c18 c5">Date: </span><span class="c5 c23">{{DATE}}</span></p>
-<p class="c1"><span class="c18 c5">Meeting #</span><span class="c23 c5">{{MEETING_NUMBER}}</span></p>
 {{THEME_SECTION}}
 
-<p class="c19"></p>
-<p class="section-label">Club officers:</p>
-<table class="c7">
+<table class="agenda-table">
   <thead>
-    <tr class="c3">
-      <td class="c13"><p class="c4"><span class="c16 c18 c5">Positions</span></p></td>
-      <td class="c10"><p class="c4"><span class="c16 c18 c5">CRG TM</span></p></td>
-    </tr>
-  </thead>
-  <tbody>
-    {{CLUB_OFFICERS_ROWS}}
-  </tbody>
-</table>
-
-<p class="c19"></p>
-<p class="section-label">Role players :</p>
-<table class="c7">
-  <thead>
-    <tr class="c6">
-      <td class="c11"><p class="c4"><span class="c16 c18 c5">Roles</span></p></td>
-      <td class="c9"><p class="c4"><span class="c16 c18 c5">Names</span></p></td>
-    </tr>
-  </thead>
-  <tbody>
-    {{ROLE_PLAYERS_ROWS}}
-  </tbody>
-</table>
-
-<p class="c19"></p>
-<p class="section-label">Agenda :</p>
-<table class="c7">
-  <thead>
-    <tr class="c6">
-      <td class="c14"><p class="c4"><span class="c12">Time</span></p></td>
-      <td class="c9"><p class="c4"><span class="c12">Program</span></p></td>
-      <td class="c20"><p class="c4"><span class="c12">Accountability</span></p></td>
+    <tr>
+      <th class="th-time">Time</th>
+      <th class="th-program">Program</th>
+      <th class="th-acct">Accountability</th>
     </tr>
   </thead>
   <tbody>

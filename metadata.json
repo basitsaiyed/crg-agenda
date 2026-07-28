@@ -1,0 +1,6 @@
+{
+  "name": "CRG Toastmasters Agenda Studio",
+  "description": "Toastmasters meeting agenda generator with automatic slate parsing, dynamic time calculations, and print-ready CRG club template export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

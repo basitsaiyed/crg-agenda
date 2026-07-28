@@ -6,13 +6,13 @@
 import { MeetingSlate, AgendaSegment, ClubOfficer } from '../types';
 
 export const DEFAULT_CLUB_OFFICERS: ClubOfficer[] = [
-  { position: 'President', name: '' },
-  { position: 'VP Education', name: '' },
-  { position: 'VP Membership', name: '' },
-  { position: 'VP Public Relations', name: '' },
-  { position: 'Secretary', name: '' },
-  { position: 'Treasurer', name: '' },
-  { position: 'Sergeant-at-Arms', name: '' },
+  { position: 'President', name: 'Harsh' },
+  { position: 'VP Education', name: 'Basit' },
+  { position: 'VP Membership', name: 'Sourav' },
+  { position: 'VP Public Relations', name: 'Vatsal' },
+  { position: 'Secretary', name: 'Shantanu' },
+  { position: 'Treasurer', name: 'Gautam' },
+  { position: 'Sergeant-at-Arms', name: 'Tejas' },
 ];
 
 export const DEFAULT_CRG_SLATE: MeetingSlate = {

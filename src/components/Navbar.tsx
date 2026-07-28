@@ -22,10 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ slate }) => {
             className="w-8 h-8 rounded-full object-contain bg-white border border-amber-400 flex-shrink-0"
           />
           <span className="font-bold text-sm tracking-wide text-white">
-            CRG Toastmasters • Meeting {slate.meetingNumber || '#63'}
-          </span>
-          <span className="text-xs text-sky-200 hidden sm:inline">
-            ({slate.date})
+            CRG Toastmasters • Agenda
           </span>
         </div>
       </div>

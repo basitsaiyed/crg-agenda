@@ -4,76 +4,122 @@
 <style type="text/css">
   ol { margin: 0; padding: 0; }
   table td, table th { padding: 0; }
-  .c9 { border-right-style: solid; padding: 0pt 5.4pt 0pt 5.4pt; border-bottom-color: #000000; border-top-width: 1pt; border-right-width: 1pt; border-left-color: #000000; vertical-align: top; border-right-color: #000000; border-left-width: 1pt; border-top-style: solid; border-left-style: solid; border-bottom-width: 1pt; width: 246.8pt; border-top-color: #000000; border-bottom-style: solid; }
-  .c20 { border-right-style: solid; padding: 0pt 5.4pt 0pt 5.4pt; border-bottom-color: #000000; border-top-width: 1pt; border-right-width: 1pt; border-left-color: #000000; vertical-align: top; border-right-color: #000000; border-left-width: 1pt; border-top-style: solid; border-left-style: solid; border-bottom-width: 1pt; width: 143.4pt; border-top-color: #000000; border-bottom-style: solid; }
-  .c10 { border-right-style: solid; padding: 0pt 5.4pt 0pt 5.4pt; border-bottom-color: #000000; border-top-width: 1pt; border-right-width: 1pt; border-left-color: #000000; vertical-align: top; border-right-color: #000000; border-left-width: 1pt; border-top-style: solid; border-left-style: solid; border-bottom-width: 1pt; width: 223.6pt; border-top-color: #000000; border-bottom-style: solid; }
-  .c11 { border-right-style: solid; padding: 0pt 5.4pt 0pt 5.4pt; border-bottom-color: #000000; border-top-width: 1pt; border-right-width: 1pt; border-left-color: #000000; vertical-align: top; border-right-color: #000000; border-left-width: 1pt; border-top-style: solid; border-left-style: solid; border-bottom-width: 1pt; width: 225.4pt; border-top-color: #000000; border-bottom-style: solid; }
-  .c14 { border-right-style: solid; padding: 0pt 5.4pt 0pt 5.4pt; border-bottom-color: #000000; border-top-width: 1pt; border-right-width: 1pt; border-left-color: #000000; vertical-align: top; border-right-color: #000000; border-left-width: 1pt; border-top-style: solid; border-left-style: solid; border-bottom-width: 1pt; width: 85.5pt; border-top-color: #000000; border-bottom-style: solid; }
-  .c13 { border-right-style: solid; padding: 0pt 5.4pt 0pt 5.4pt; border-bottom-color: #000000; border-top-width: 1pt; border-right-width: 1pt; border-left-color: #000000; vertical-align: top; border-right-color: #000000; border-left-width: 1pt; border-top-style: solid; border-left-style: solid; border-bottom-width: 1pt; width: 248.7pt; border-top-color: #000000; border-bottom-style: solid; }
-  .c19 { padding-top: 0pt; padding-bottom: 0pt; line-height: 1.1583333333333334; orphans: 2; widows: 2; text-align: justify; height: 12pt; }
-  .c0 { color: #000000; font-weight: 400; text-decoration: none; vertical-align: baseline; font-size: 11pt; font-family: "Aptos", Arial, sans-serif; font-style: normal; }
-  .c12 { color: #000000; font-weight: 700; text-decoration: none; vertical-align: baseline; font-size: 10pt; font-family: "Aptos", Arial, sans-serif; font-style: normal; }
-  .c1 { padding-top: 0pt; padding-bottom: 0pt; line-height: 1.1583333333333334; orphans: 2; widows: 2; text-align: left; }
-  .c2 { padding-top: 0pt; padding-bottom: 0pt; line-height: 1.0; orphans: 2; widows: 2; text-align: left; }
-  .c25 { padding-top: 0pt; padding-bottom: 8pt; line-height: 1.1583333333333334; orphans: 2; widows: 2; text-align: left; }
-  .c26 { padding-top: 0pt; padding-bottom: 8pt; line-height: 1.1583333333333334; orphans: 2; widows: 2; text-align: justify; }
-  .c4 { padding-top: 0pt; padding-bottom: 0pt; line-height: 1.0; orphans: 2; widows: 2; text-align: center; }
-  .c21 { padding-top: 0pt; padding-bottom: 0pt; line-height: 1.0; orphans: 2; widows: 2; text-align: justify; }
-  .c16 { color: #000000; text-decoration: none; vertical-align: baseline; font-style: normal; }
-  .c7 { border-spacing: 0; border-collapse: collapse; margin-right: auto; width: 100%; max-width: 100%; }
-  .c8 { font-size: 10pt; font-weight: 400; font-family: "Aptos", Arial, sans-serif; }
-  .c24 { background-color: #ffffff; max-width: 100%; padding: 24pt 32pt; color: #000000; }
-  .c22 { font-weight: 400; font-size: 14pt; font-family: "Aptos", Arial, sans-serif; }
-  .c18 { font-weight: 700; font-family: "Aptos", Arial, sans-serif; }
-  .c6 { height: 0pt; }
+
+  /* Cell styles — fixed pt widths converted to % for fluid layout */
+  .c9  { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 52%; }
+  .c10 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 50%; }
+  .c11 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 50%; }
+  .c13 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 50%; }
+  .c14 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 20%; }
+  .c20 { border: 1pt solid #000; padding: 3pt 5.4pt; vertical-align: top; width: 28%; }
+
+  /* Paragraph styles */
+  .c1  { padding: 0; margin: 0; line-height: 1.3; text-align: left; }
+  .c2  { padding: 0; margin: 0; line-height: 1.15; text-align: left; }
+  .c4  { padding: 0; margin: 0; line-height: 1.15; text-align: center; }
+  .c19 { padding: 4pt 0; margin: 0; line-height: 1.0; text-align: left; height: 4pt; }
+  .c21 { padding: 0; margin: 0; line-height: 1.15; text-align: left; }
+
+  /* Text styles */
+  .c0  { color: #000; font-weight: 400; font-size: 10pt; font-family: Arial, sans-serif; }
+  .c5  { font-size: 10pt; font-family: Arial, sans-serif; }
+  .c8  { font-size: 10pt; font-weight: 400; font-family: Arial, sans-serif; }
+  .c12 { color: #000; font-weight: 700; font-size: 10pt; font-family: Arial, sans-serif; }
+  .c15 { font-size: 10pt; font-family: Arial, sans-serif; }
+  .c16 { color: #000; vertical-align: baseline; font-style: normal; }
+  .c18 { font-weight: 700; font-family: Arial, sans-serif; }
+  .c22 { font-weight: 400; font-size: 11pt; font-family: Arial, sans-serif; }
   .c23 { font-weight: 700; }
-  .c3 { height: 12.5pt; }
   .c28 { font-size: 6pt; }
-  .c15 { font-size: 10pt; font-family: "Aptos", Arial, sans-serif; }
-  .c27 { height: 12pt; }
-  .c5 { font-size: 11pt; font-family: "Aptos", Arial, sans-serif; }
-  .c31 { height: 8pt; }
-  .c29 { font-size: 12pt; }
-  .c30 { height: 13.1pt; }
-  .c17 { height: 7.7pt; }
-  .title { padding-top: 0pt; color: #000000; font-size: 28pt; padding-bottom: 4pt; font-family: "Play", serif; line-height: 1.0; orphans: 2; widows: 2; text-align: left; }
-  .subtitle { padding-top: 0pt; color: #595959; font-size: 14pt; padding-bottom: 8pt; font-family: "Aptos", Arial, sans-serif; line-height: 1.1583333333333334; orphans: 2; widows: 2; text-align: left; }
-  li { color: #000000; font-size: 12pt; font-family: "Aptos", Arial, sans-serif; }
-  p { margin: 0; color: #000000; font-size: 12pt; font-family: "Aptos", Arial, sans-serif; }
-  h1 { padding-top: 18pt; color: #0f4761; font-size: 20pt; padding-bottom: 4pt; font-family: "Play", serif; line-height: 1.1583333333333334; page-break-after: avoid; orphans: 2; widows: 2; text-align: left; }
-  h2 { padding-top: 8pt; color: #0f4761; font-size: 16pt; padding-bottom: 4pt; font-family: "Play", serif; line-height: 1.1583333333333334; page-break-after: avoid; orphans: 2; widows: 2; text-align: left; }
-  h3 { padding-top: 8pt; color: #0f4761; font-size: 14pt; padding-bottom: 4pt; font-family: "Aptos", Arial, sans-serif; line-height: 1.1583333333333334; page-break-after: avoid; orphans: 2; widows: 2; text-align: left; }
-  h4 { padding-top: 4pt; color: #0f4761; font-size: 12pt; padding-bottom: 2pt; font-family: "Aptos", Arial, sans-serif; line-height: 1.1583333333333334; page-break-after: avoid; font-style: italic; orphans: 2; widows: 2; text-align: left; }
-  h5 { padding-top: 4pt; color: #0f4761; font-size: 12pt; padding-bottom: 2pt; font-family: "Aptos", Arial, sans-serif; line-height: 1.1583333333333334; page-break-after: avoid; orphans: 2; widows: 2; text-align: left; }
-  h6 { padding-top: 2pt; color: #595959; font-size: 12pt; padding-bottom: 0pt; font-family: "Aptos", Arial, sans-serif; line-height: 1.1583333333333334; page-break-after: avoid; font-style: italic; orphans: 2; widows: 2; text-align: left; }
-  table.c7 tr:hover { background-color: #f8fafc; }
+  .italic { font-style: italic; }
+
+  /* Row heights */
+  .c3  { height: 14pt; }
+  .c6  { height: 0pt; }
+
+  /* Table base */
+  .c7 {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  /* Document body container */
+  .c24 {
+    background-color: #fff;
+    width: 100%;
+    padding: 16pt 20pt 20pt 20pt;
+    color: #000;
+    box-sizing: border-box;
+  }
+
+  /* Section labels like "Club officers:", "Role players :", "Agenda :" */
+  .section-label {
+    font-weight: 700;
+    font-size: 10.5pt;
+    font-family: Arial, sans-serif;
+    margin: 8pt 0 3pt 0;
+    color: #000;
+  }
+
+  /* Table hover for screen only */
+  table.c7 tbody tr:hover td { background-color: #f8fafc; }
+
   @media print {
-    .c24 { padding: 0pt !important; }
-    table.c7 tr:hover { background-color: transparent !important; }
+    .c24 { padding: 12pt 16pt !important; }
+    table.c7 tbody tr:hover td { background-color: transparent !important; }
   }
 </style>
 </head>
 <body class="c24 doc-content">
+
 <p class="c1"><span class="c18 c5">Date: </span><span class="c5 c23">{{DATE}}</span></p>
 <p class="c1"><span class="c18 c5">Meeting #</span><span class="c23 c5">{{MEETING_NUMBER}}</span></p>
 {{THEME_SECTION}}
-<p class="c19"><span class="c16 c18 c28"></span></p>
-<p class="c21"><span class="c16 c18 c5">Club officers:</span></p>
+
+<p class="c19"></p>
+<p class="section-label">Club officers:</p>
 <table class="c7">
-  <tr class="c3"><td class="c13" colspan="1" rowspan="1"><p class="c4"><span class="c16 c18 c5">Positions</span></p></td><td class="c10" colspan="1" rowspan="1"><p class="c4"><span class="c16 c5 c18">CRG TM</span></p></td></tr>
-  {{CLUB_OFFICERS_ROWS}}
+  <thead>
+    <tr class="c3">
+      <td class="c13"><p class="c4"><span class="c16 c18 c5">Positions</span></p></td>
+      <td class="c10"><p class="c4"><span class="c16 c18 c5">CRG TM</span></p></td>
+    </tr>
+  </thead>
+  <tbody>
+    {{CLUB_OFFICERS_ROWS}}
+  </tbody>
 </table>
-<p class="c19"><span class="c16 c18 c5"></span></p>
-<p class="c21"><span class="c16 c18 c5">Role players :</span></p>
+
+<p class="c19"></p>
+<p class="section-label">Role players :</p>
 <table class="c7">
-  <tr class="c6"><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c16 c18 c5">Roles</span></p></td><td class="c9" colspan="1" rowspan="1"><p class="c4"><span class="c16 c18 c5">Names</span></p></td></tr>
-  {{ROLE_PLAYERS_ROWS}}
+  <thead>
+    <tr class="c6">
+      <td class="c11"><p class="c4"><span class="c16 c18 c5">Roles</span></p></td>
+      <td class="c9"><p class="c4"><span class="c16 c18 c5">Names</span></p></td>
+    </tr>
+  </thead>
+  <tbody>
+    {{ROLE_PLAYERS_ROWS}}
+  </tbody>
 </table>
-<p class="c19"><span class="c16 c18 c5"></span></p>
-<p class="c21"><span class="c16 c18 c5">Agenda :</span></p>
+
+<p class="c19"></p>
+<p class="section-label">Agenda :</p>
 <table class="c7">
-  <tr class="c6"><td class="c14" colspan="1" rowspan="1"><p class="c4"><span class="c12">Time</span></p></td><td class="c9" colspan="1" rowspan="1"><p class="c4"><span class="c12">Program </span></p></td><td class="c20" colspan="1" rowspan="1"><p class="c4"><span class="c12">Accountability</span></p></td></tr>
-  {{AGENDA_ROWS}}
+  <thead>
+    <tr class="c6">
+      <td class="c14"><p class="c4"><span class="c12">Time</span></p></td>
+      <td class="c9"><p class="c4"><span class="c12">Program</span></p></td>
+      <td class="c20"><p class="c4"><span class="c12">Accountability</span></p></td>
+    </tr>
+  </thead>
+  <tbody>
+    {{AGENDA_ROWS}}
+  </tbody>
 </table>
+
 </body>
 </html>

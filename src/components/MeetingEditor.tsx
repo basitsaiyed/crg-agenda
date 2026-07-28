@@ -71,7 +71,6 @@ export const MeetingEditor: React.FC<MeetingEditorProps> = ({
       name: `Speaker ${slate.speakers.length + 1}`,
       project: `Level & Project ${slate.speakers.length + 1}`,
       evaluatorName: `Evaluator ${slate.speakers.length + 1}`,
-      durationMin: 5,
       durationMax: 7,
     };
     onChange({

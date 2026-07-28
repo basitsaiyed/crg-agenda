@@ -9,32 +9,33 @@ import { MeetingEditor } from './components/MeetingEditor';
 import { AgendaPreview } from './components/AgendaPreview';
 import { SlateInputModal } from './components/SlateInputModal';
 import { DEFAULT_CRG_SLATE, calculateAgendaTimeline } from './lib/agenda-utils';
-import { MeetingSlate, TemplateStyle } from './types';
+import { MeetingSlate } from './types';
 import { FileText, Eye, Edit3, Sliders, Printer, Copy, Check } from 'lucide-react';
-import confetti from 'canvas-confetti';
 
 export default function App() {
   const [slate, setSlate] = useState<MeetingSlate>(DEFAULT_CRG_SLATE);
-  const [templateStyle, setTemplateStyle] = useState<TemplateStyle>('crg-classic');
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState<'editor' | 'preview'>('preview');
   const [showEditorTabs, setShowEditorTabs] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const handlePrint = () => {
-    try {
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#004165', '#772432', '#008080', '#f59e0b']
-      });
-    } catch (e) {
-      // ignore
+    // Format filename: Agenda_63_26thJuly2026.pdf
+    const num = slate.meetingNumber.replace(/[^0-9]/g, '');
+    const rawDate = slate.date; // e.g. "26/07/2026"
+    const ddmmyyyy = rawDate.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+    let formattedDate = rawDate.replace(/\//g, '');
+    if (ddmmyyyy) {
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const day = parseInt(ddmmyyyy[1], 10);
+      const mon = months[parseInt(ddmmyyyy[2], 10) - 1];
+      const yr = ddmmyyyy[3];
+      formattedDate = `${day}th${mon}${yr}`;
     }
-    setTimeout(() => {
-      window.print();
-    }, 300);
+    const prevTitle = document.title;
+    document.title = `Agenda_${num}_${formattedDate}`;
+    window.print();
+    setTimeout(() => { document.title = prevTitle; }, 2000);
   };
 
   const handleCopyWhatsAppSummary = () => {
@@ -159,7 +160,7 @@ export default function App() {
 
             {/* The Print Sheet */}
             <div className="overflow-x-auto pb-4">
-              <AgendaPreview slate={slate} templateStyle={templateStyle} />
+              <AgendaPreview slate={slate} />
             </div>
           </div>
         </div>

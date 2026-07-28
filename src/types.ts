@@ -24,7 +24,6 @@ export interface SpeakerSlot {
   name: string;
   project: string;
   evaluatorName: string;
-  durationMin: number;
   durationMax: number;
 }
 
@@ -48,8 +47,6 @@ export interface AgendaSegment {
   category: AgendaCategory;
   isCustomizable?: boolean;
 }
-
-export type TemplateStyle = 'crg-classic' | 'modern-executive' | 'vibrant-banner';
 
 export interface MeetingSlate {
   meetingNumber: string;

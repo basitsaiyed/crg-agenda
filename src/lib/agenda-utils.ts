@@ -78,7 +78,6 @@ export const DEFAULT_CRG_SLATE: MeetingSlate = {
       name: 'Harsh Raweel',
       project: 'L3 P2 - Persuasive Influencer (Social Speech)',
       evaluatorName: 'Megha Bhatt',
-      durationMin: 5,
       durationMax: 7,
     },
     {
@@ -86,7 +85,6 @@ export const DEFAULT_CRG_SLATE: MeetingSlate = {
       name: 'Prakhar Verma',
       project: 'L4P2',
       evaluatorName: 'Basit Saiyed',
-      durationMin: 5,
       durationMax: 7,
     },
   ],
@@ -351,7 +349,6 @@ export function parseSlateTextLocally(text: string): Partial<MeetingSlate> {
           name,
           project,
           evaluatorName: evaluatorName !== `Evaluator ${num}` ? evaluatorName : '',
-          durationMin: 5,
           durationMax: 7,
         });
       }

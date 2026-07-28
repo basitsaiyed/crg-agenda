@@ -4,13 +4,10 @@
  */
 
 import React from 'react';
-import { TemplateStyle, MeetingSlate } from '../types';
+import { MeetingSlate } from '../types';
 
 interface NavbarProps {
   slate: MeetingSlate;
-  templateStyle?: TemplateStyle;
-  onSelectTemplate?: (style: TemplateStyle) => void;
-  onOpenImportModal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({

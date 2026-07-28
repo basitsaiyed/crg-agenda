@@ -4,9 +4,9 @@
  */
 
 import React, { useState } from 'react';
-import { X, Zap, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, Zap, FileText, CheckCircle2, AlertCircle, ClipboardPaste } from 'lucide-react';
 import { MeetingSlate } from '../types';
-import { RAW_SAMPLE_SLATE_TEXT, parseSlateTextLocally } from '../lib/agenda-utils';
+import { parseSlateTextLocally } from '../lib/agenda-utils';
 
 interface SlateInputModalProps {
   isOpen: boolean;
@@ -19,17 +19,26 @@ export const SlateInputModal: React.FC<SlateInputModalProps> = ({
   onClose,
   onApplySlate,
 }) => {
-  const [rawText, setRawText] = useState(RAW_SAMPLE_SLATE_TEXT);
+  const [rawText, setRawText] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleLoadSample = () => {
-    setRawText(RAW_SAMPLE_SLATE_TEXT);
-    setErrorMsg(null);
-    setSuccessMsg('Sample CRG Meeting #63 slate loaded into editor!');
-    setTimeout(() => setSuccessMsg(null), 3000);
+  const handlePasteFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text.trim()) {
+        setRawText(text);
+        setErrorMsg(null);
+        setSuccessMsg('Text pasted from clipboard!');
+        setTimeout(() => setSuccessMsg(null), 2000);
+      } else {
+        setErrorMsg('Clipboard is empty. Copy your slate text first.');
+      }
+    } catch {
+      setErrorMsg('Clipboard access denied. Please paste manually using Ctrl+V / ⌘V.');
+    }
   };
 
   const handleParse = () => {
@@ -69,27 +78,25 @@ export const SlateInputModal: React.FC<SlateInputModalProps> = ({
 
         {/* Modal Body */}
         <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-amber-50 border border-amber-200 px-4 py-2.5 rounded-xl gap-2.5">
-            <span className="text-xs sm:text-sm text-amber-900 font-medium">
-              💡 Need to test quickly? Use the official CRG Sunday Slate (#63).
-            </span>
-            <button
-              onClick={handleLoadSample}
-              className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-lg transition shadow-sm cursor-pointer whitespace-nowrap text-center"
-            >
-              🚀 Load Sample #63
-            </button>
-          </div>
-
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Paste Nomination Sheet Text:
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Paste Nomination Sheet Text:
+              </label>
+              <button
+                onClick={handlePasteFromClipboard}
+                className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-1.5 rounded-lg border border-slate-300 transition cursor-pointer"
+                title="Paste from clipboard"
+              >
+                <ClipboardPaste className="w-3.5 h-3.5" />
+                <span>Paste</span>
+              </button>
+            </div>
             <textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Paste the role players nomination sheet here (e.g. TMOD: Shantanu, General Evaluator: Prasoon, Speaker 1: Harsh Raweel...)"
-              rows={9}
+              rows={10}
               className="w-full font-mono text-xs sm:text-sm p-3 sm:p-3.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008080] focus:border-transparent bg-slate-50 text-slate-800 resize-y leading-relaxed shadow-inner"
             />
           </div>

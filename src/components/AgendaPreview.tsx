@@ -133,7 +133,7 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
         </div>
 
         {/* Right: agenda */}
-        <div style={{ flex: 1, minWidth: 0, overflow: 'hidden', paddingLeft: '20px' }}>
+        <div style={{ flex: 1, minWidth: 0, overflow: 'hidden', paddingLeft: '20px', paddingRight:'12px' }}>
           <div
             className="agenda-html-container"
             dangerouslySetInnerHTML={{ __html: renderAgendaHtml(slate, timeline) }}

@@ -37,6 +37,11 @@ export type AgendaCategory =
   | 'closing'
   | 'transition';
 
+export interface AgendaSubItem {
+  program: string;
+  accountability?: string;
+}
+
 export interface AgendaSegment {
   id: string;
   timeStart: string;
@@ -46,6 +51,7 @@ export interface AgendaSegment {
   accountability: string;
   category: AgendaCategory;
   isCustomizable?: boolean;
+  subItems?: AgendaSubItem[];
 }
 
 export interface MeetingSlate {

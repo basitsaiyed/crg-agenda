@@ -101,6 +101,7 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
     program: string,
     accountability: string,
     category: AgendaSegment['category'],
+    subItems: AgendaSegment['subItems'] = [],
     isCustomizable = false
   ) => {
     const endMins = currentMins + duration;
@@ -113,6 +114,7 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
       accountability: accountability || 'TBA',
       category,
       isCustomizable,
+      subItems,
     });
     currentMins = endMins;
   };
@@ -128,55 +130,99 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
   const po = rolePlayers.presidingOfficer || 'Presiding Officer';
 
   // 1. Opening
-  addSeg(2, 'Sergeant-at-Arms address', saa, 'opening');
-  addSeg(3, "PO's address", po, 'opening');
-  addSeg(10, 'TMOD Opening & Meeting overview', tmod, 'opening', true);
+  addSeg(2, 'Sergeant-at-Arms Calls Meeting to Order', saa, 'opening', [
+    { program: "Sergeant-at-Arms' Welcome & Housekeeping" },
+    { program: 'Welcome Guests' },
+  ]);
+
+  addSeg(3, "Presiding Officer's Address", po, 'opening', [
+    { program: 'Club announcements & updates' },
+  ]);
+
+  addSeg(10, 'TMOD Opening & Meeting Overview', tmod, 'opening', [
+    { program: 'Introduce the theme of the day' },
+    { program: 'Introduce TAG team roles' },
+  ], true);
 
   const tagTeam = [ge, timer, ahCounter, grammarian].filter(Boolean).join(' / ');
-  addSeg(10, "General Evaluator's introduction, TAG team objectives", tagTeam, 'opening', true);
-  addSeg(2, 'Handover stage back to TMOD', tmod, 'transition');
+  addSeg(10, "General Evaluator Introduces the TAG Team", ge, 'opening', [
+    { program: 'Ah-Counter objectives', accountability: ahCounter },
+    { program: 'Grammarian objectives', accountability: grammarian },
+    { program: 'Timer objectives', accountability: timer },
+    { program: 'Returns control to TMOD', accountability: tmod },
+  ], true);
+
+  addSeg(2, 'TMOD Introduces Prepared Speeches Session', tmod, 'transition', []);
 
   // 2. Prepared Speeches
   if (speakers.length === 0) {
-    addSeg(10, 'Prepared Speeches Session (No speakers currently listed)', tmod, 'speech');
+    addSeg(10, 'Prepared Speeches Session', tmod, 'speech', [
+      { program: 'No speakers currently listed' },
+    ]);
   } else {
     speakers.forEach((spk, idx) => {
       const spkNum = idx + 1;
       const evalName = spk.evaluatorName || `Evaluator ${spkNum}`;
       const spkName = spk.name || `Speaker ${spkNum}`;
       const projectTitle = spk.project ? ` – ${spk.project}` : '';
-
-      addSeg(2, `Speech Objective By Evaluator ${spkNum}`, evalName, 'speech-intro');
       const slotDuration = spk.durationMax ? Math.max(spk.durationMax + 1, 6) : 8;
-      addSeg(slotDuration, `Speaker ${spkNum}${projectTitle}`, spkName, 'speech', true);
+
+      addSeg(slotDuration + 2, `Speaker ${spkNum}${projectTitle}`, spkName, 'speech', [
+        { program: `Speech Objective by Evaluator ${spkNum}`, accountability: evalName },
+        { program: `${spkName}'s prepared speech` },
+        { program: 'Call for Timer\'s Report', accountability: timer },
+      ], true);
     });
   }
 
   // 3. Table Topics
-  addSeg(2, 'TMOD transition to Table Topics', tmod, 'transition');
   const ttDuration = slate.tableTopicsDuration || 20;
-  addSeg(ttDuration, 'Table Topics', ttm, 'table-topics', true);
+  addSeg(ttDuration + 2, 'TMOD Introduces Table Topics', tmod, 'table-topics', [
+    { program: 'Table Topics session', accountability: ttm },
+    { program: 'Call for Timer\'s Report', accountability: timer },
+    { program: 'Returns control to TMOD', accountability: tmod },
+  ], true);
 
   // 4. Evaluations
-  addSeg(2, 'TMOD to General Evaluator Transition', tmod, 'transition');
+  addSeg(2, 'TMOD Introduces the General Evaluator', tmod, 'transition', []);
+
   if (speakers.length > 0) {
-    const evalNames = speakers.map((s, i) => s.evaluatorName || `Evaluator ${i + 1}`).join(' / ');
+    const evalSubs: AgendaSegment['subItems'] = speakers.map((s, i) => ({
+      program: `Speaker ${i + 1} Evaluation (3:30)`,
+      accountability: s.evaluatorName || `Evaluator ${i + 1}`,
+    }));
+    evalSubs!.push({ program: 'Recap Evaluators & Call for Votes' });
     const evalTotalTime = Math.max(Math.round(speakers.length * 3.5), 5);
-    addSeg(evalTotalTime, `Speech Evaluations (3:30 each)`, evalNames, 'evaluation', true);
+    addSeg(evalTotalTime, 'General Evaluator Calls for Evaluations', ge, 'evaluation', evalSubs, true);
   } else {
-    addSeg(7, 'Speech Evaluations', ge, 'evaluation', true);
+    addSeg(7, 'General Evaluator Calls for Evaluations', ge, 'evaluation', [
+      { program: 'Speech evaluations (3:30 each)' },
+      { program: 'Recap Evaluators & Call for Votes' },
+    ], true);
   }
 
   // 5. Reports
-  const tagReportNames = [grammarian, ahCounter, timer].filter(Boolean).join(' / ');
-  addSeg(slate.tagReportsDuration || 5, 'TAG Reports (1:30 each)', tagReportNames, 'reports', true);
-  addSeg(slate.geReportDuration || 5, 'GE Report', ge, 'reports', true);
+  addSeg(slate.tagReportsDuration || 5, 'General Evaluator Calls for Reports', ge, 'reports', [
+    { program: 'Grammarian\'s Report', accountability: grammarian },
+    { program: 'Ah-Counter\'s Report', accountability: ahCounter },
+    { program: 'Timer\'s Report', accountability: timer },
+  ], true);
+
+  addSeg(slate.geReportDuration || 5, 'General Evaluator\'s Report', ge, 'reports', [
+    { program: 'Overall meeting evaluation' },
+    { program: 'Returns control to TMOD', accountability: tmod },
+  ], true);
 
   // 6. Closing
-  addSeg(2, 'TMOD Closing - Handover to PO', tmod, 'transition');
+  addSeg(2, 'TMOD Closing – Handover to Presiding Officer', tmod, 'transition', []);
+
   const targetEndMins = timeToMinutes(slate.endTime);
   const remainingMins = Math.max(targetEndMins - currentMins, 5);
-  addSeg(remainingMins, 'Meeting Awards, Feedback and Closing', po, 'closing', true);
+  addSeg(remainingMins, 'Meeting Awards, Feedback & Closing', po, 'closing', [
+    { program: 'Best Speaker, Best Evaluator, Best Table Topics awards' },
+    { program: 'General feedback & announcements' },
+    { program: 'Meeting adjourned', accountability: saa },
+  ], true);
 
   return segments.map(seg => {
     const startM = timeToMinutes(seg.timeStart);

@@ -56,7 +56,7 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
         <img
           src={tmLogo}
           alt="Toastmasters International"
-          style={{ width: 130, height: 120, borderRadius: '50%', objectFit: 'contain', flexShrink: 0 }}
+          style={{ width: 130, height: 120, borderRadius: '50%', objectFit: 'contain', flexShrink: 0, marginLeft: '20px' }}
         />
 
         {/* Club name + theme */}

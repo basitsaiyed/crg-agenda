@@ -36,7 +36,7 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
       {/* ── Header ── */}
       <div
         style={{
-          background: 'linear-gradient(135deg, #0a2a5e 0%, #0d4a8a 55%, #1a6aaa 100%)',
+          background: 'linear-gradient(135deg, #1a6aaa 0%, #0d4a8a 45%, #0a2a5e 100%)',
           padding: '20px 24px',
           display: 'flex',
           alignItems: 'center',
@@ -60,7 +60,7 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
         />
 
         {/* Club name + theme */}
-        <div style={{ flex: 1, textAlign: 'right' }}>
+        <div style={{ flex: 1, textAlign: 'right', marginTop: '30px' }}>
           <p style={{ margin: 0, color: '#fff', fontWeight: 700, fontSize: '26px', letterSpacing: '0.01em', lineHeight: 1.2 }}>
             {slate.clubName || 'Club Name'}&nbsp;{slate.meetingNumber || ''}
           </p>

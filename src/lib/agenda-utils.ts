@@ -18,9 +18,10 @@ export const DEFAULT_CLUB_OFFICERS: ClubOfficer[] = [
 export const DEFAULT_CRG_SLATE: MeetingSlate = {
   meetingNumber: '#1',
   date: '',
-  startTime: '10:45 AM',
+  startTime: '10:30 AM',
   endTime: '12:30 PM',
-  venue: '',
+  venue: 'Training Room, First Floor, Gandhinagar GIFT City Fire Department, Gandhinagar, Gujarat 382421, India',
+  venueUrl: 'https://www.toastmasters.org/Find-a-Club/28678751-crg-toastmasters-club',
   theme: '',
   clubName: 'CRG TOASTMASTERS',
   clubSubtitle: 'Run by Runners',

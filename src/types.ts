@@ -54,6 +54,7 @@ export interface MeetingSlate {
   startTime: string; // e.g. "10:45 AM"
   endTime: string;   // e.g. "12:30 PM"
   venue: string;
+  venueUrl: string;
   theme: string;
   clubName: string;
   clubSubtitle: string;

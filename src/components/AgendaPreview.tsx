@@ -74,16 +74,16 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
       <div style={{ height: 4, background: 'linear-gradient(90deg,#0d7abf,#16a8d4)', flexShrink: 0 }} />
 
       {/* ── Body ── */}
-      <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
+      <div style={{ display: 'flex', flex: 1, minHeight: 0, margin: '20px 27px 20px 15px' }}>
 
         {/* Left sidebar */}
         <div
           style={{
-            width: 195,
+            width: 240,
             minWidth: 195,
             borderRight: '1px solid #dce6f0',
             padding: '12px 12px 12px 14px',
-            fontSize: '8.5pt',
+            fontSize: '10pt',
             fontFamily: 'Arial, sans-serif',
             color: '#111',
             lineHeight: 1.45,
@@ -91,33 +91,42 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
           }}
         >
           {/* Date */}
-          <p style={{ fontWeight: 700, margin: '0 0 10px', fontSize: '9pt' }}>
+          <p style={{ fontWeight: 700, margin: '0 0 14px', fontSize: '12pt' }}>
             {slate.date || 'Month, Day YYYY'}
           </p>
 
           {/* Officers */}
           {slate.officers.map((off, i) => (
-            <div key={i} style={{ marginBottom: '7px' }}>
-              <p style={{ fontWeight: 700, color: '#0a3d7a', margin: 0, fontSize: '8.5pt' }}>{off.position}</p>
-              <p style={{ margin: 0, fontSize: '8.5pt' }}>{off.name || 'TBD'}</p>
+            <div key={i} style={{ marginBottom: '14px' }}>
+              <p style={{ fontWeight: 700, color: '#0a3d7a', margin: 0, fontSize: '12pt' }}>{off.position}</p>
+              <p style={{ margin: '0 0 0 2px', fontSize: '11pt' }}>{off.name || 'TBD'}</p>
             </div>
           ))}
 
           <div style={{ borderTop: '1px solid #dce6f0', margin: '10px 0' }} />
 
           {/* Meeting info */}
-          <p style={{ margin: '0 0 6px' }}>
+          <p style={{ margin: '0 0 18px', fontSize: '11pt' }}>
             We meet every Sunday from {slate.startTime} to {slate.endTime}
           </p>
-          {slate.venue && (
-            <p style={{ margin: '0 0 6px' }}>{slate.venue}</p>
-          )}
+          <p style={{ fontWeight: 700, color: '#0a3d7a', margin: 0, fontSize: '12pt' }}>Location:</p>
+          <p style={{ margin: '0 0 4px', fontSize: '11pt' }}>
+            {slate.venue || 'Training Room, First Floor, Gandhinagar GIFT City Fire Department, Gandhinagar, Gujarat 382421, India'}
+          </p>
+          <a
+            href={slate.venueUrl || 'https://www.toastmasters.org/Find-a-Club/28678751-crg-toastmasters-club'}
+            target="_blank"
+            rel="noreferrer"
+            style={{ display: 'block', margin: '0 0 6px', color: '#1a5fa8', fontSize: '9.5pt', wordBreak: 'break-all' }}
+          >
+            Find us on Toastmasters.org
+          </a>
 
           <div style={{ borderTop: '1px solid #dce6f0', margin: '10px 0' }} />
 
           {/* Club Mission */}
-          <p style={{ fontWeight: 700, color: '#0a3d7a', margin: '0 0 4px', fontSize: '8.5pt' }}>Club Mission</p>
-          <p style={{ margin: 0, fontSize: '8pt', lineHeight: 1.5 }}>
+          <p style={{ fontWeight: 700, color: '#0a3d7a', margin: '0 0 4px', fontSize: '12pt' }}>Club Mission</p>
+          <p style={{ margin: 0, fontSize: '11pt', lineHeight: 1.5 }}>
             {slate.clubMission ||
               'We provide a supportive and positive learning experience in which members are empowered to develop communication and leadership skills, resulting in greater self-confidence and personal growth.'}
           </p>

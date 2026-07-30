@@ -413,6 +413,32 @@ export const MeetingEditor: React.FC<MeetingEditorProps> = ({
                   </div>
                 ))}
               </div>
+
+              {/* Optional sections */}
+              <div className="mt-4">
+                <h4 className={`${labelCls} flex items-center gap-1.5 mb-2`} style={labelStyle}>
+                  Optional Sections
+                </h4>
+                <label
+                  className="flex items-center gap-3 cursor-pointer p-3 rounded-lg select-none"
+                  style={{ background: 'var(--bg2)', border: '1px solid var(--border)' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={slate.includeNetworking !== false}
+                    onChange={(e) => updateField('includeNetworking', e.target.checked)}
+                    className="w-4 h-4 accent-[#1a5fa8] cursor-pointer"
+                  />
+                  <div>
+                    <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>
+                      Networking Session <span className="font-normal text-xs" style={{ color: 'var(--text3)' }}>(15 min)</span>
+                    </p>
+                    <p className="text-xs" style={{ color: 'var(--text3)' }}>
+                      Pre-meeting networking shown at the top of the agenda
+                    </p>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
         )}

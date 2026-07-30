@@ -38,10 +38,14 @@ export const DEFAULT_CRG_SLATE: MeetingSlate = {
     sergeantAtArms: '',
     presidingOfficer: '',
   },
-  speakers: [],
+  speakers: [
+    { id: 'spk-1', name: '', project: '', evaluatorName: '', durationMax: 7 },
+    { id: 'spk-2', name: '', project: '', evaluatorName: '', durationMax: 7 },
+  ],
   tableTopicsDuration: 20,
   tagReportsDuration: 5,
   geReportDuration: 5,
+  includeNetworking: true,
 };
 
 /**
@@ -128,6 +132,14 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
   const ahCounter = rolePlayers.ahCounter || 'Ah Counter';
   const saa = rolePlayers.sergeantAtArms || 'Sergeant-at-Arms';
   const po = rolePlayers.presidingOfficer || 'Presiding Officer';
+
+  // 0. Networking (optional)
+  if (slate.includeNetworking !== false) {
+    addSeg(15, 'Networking Session', saa, 'opening', [
+      { program: 'Meet fellow members and guests' },
+      { program: 'Light refreshments & introductions' },
+    ]);
+  }
 
   // 1. Opening
   addSeg(2, 'Sergeant-at-Arms Calls Meeting to Order', saa, 'opening', [

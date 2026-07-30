@@ -71,4 +71,5 @@ export interface MeetingSlate {
   tableTopicsDuration?: number; // default 20
   tagReportsDuration?: number;  // default 5
   geReportDuration?: number;    // default 5
+  includeNetworking?: boolean;  // default true, 15 min session before meeting
 }

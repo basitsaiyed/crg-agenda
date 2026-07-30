@@ -37,34 +37,34 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
       <div
         style={{
           background: 'linear-gradient(135deg, #0a2a5e 0%, #0d4a8a 55%, #1a6aaa 100%)',
-          padding: '12px 18px',
+          padding: '20px 24px',
           display: 'flex',
           alignItems: 'center',
-          gap: '14px',
+          gap: '20px',
           position: 'relative',
-          minHeight: '80px',
+          minHeight: '110px',
           flexShrink: 0,
         }}
       >
         {/* Corner brackets */}
-        <span style={{ position:'absolute', top:7,    left:7,  width:14, height:14, borderTop:'2px solid #6ab0d8',    borderLeft:'2px solid #6ab0d8'  }} />
-        <span style={{ position:'absolute', top:7,    right:7, width:14, height:14, borderTop:'2px solid #6ab0d8',    borderRight:'2px solid #6ab0d8' }} />
-        <span style={{ position:'absolute', bottom:7, left:7,  width:14, height:14, borderBottom:'2px solid #6ab0d8', borderLeft:'2px solid #6ab0d8'  }} />
-        <span style={{ position:'absolute', bottom:7, right:7, width:14, height:14, borderBottom:'2px solid #6ab0d8', borderRight:'2px solid #6ab0d8' }} />
+        <span style={{ position:'absolute', top:9,    left:9,  width:18, height:18, borderTop:'2px solid #6ab0d8',    borderLeft:'2px solid #6ab0d8'  }} />
+        <span style={{ position:'absolute', top:9,    right:9, width:18, height:18, borderTop:'2px solid #6ab0d8',    borderRight:'2px solid #6ab0d8' }} />
+        <span style={{ position:'absolute', bottom:9, left:9,  width:18, height:18, borderBottom:'2px solid #6ab0d8', borderLeft:'2px solid #6ab0d8'  }} />
+        <span style={{ position:'absolute', bottom:9, right:9, width:18, height:18, borderBottom:'2px solid #6ab0d8', borderRight:'2px solid #6ab0d8' }} />
 
         {/* TM Logo */}
         <img
           src={tmLogo}
           alt="Toastmasters International"
-          style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'contain', flexShrink: 0 }}
+          style={{ width: 130, height: 120, borderRadius: '50%', objectFit: 'contain', flexShrink: 0 }}
         />
 
         {/* Club name + theme */}
         <div style={{ flex: 1, textAlign: 'right' }}>
-          <p style={{ margin: 0, color: '#fff', fontWeight: 700, fontSize: '20px', letterSpacing: '0.01em', lineHeight: 1.2 }}>
+          <p style={{ margin: 0, color: '#fff', fontWeight: 700, fontSize: '26px', letterSpacing: '0.01em', lineHeight: 1.2 }}>
             {slate.clubName || 'Club Name'}&nbsp;{slate.meetingNumber || ''}
           </p>
-          <p style={{ margin: '4px 0 0', color: '#a8cce8', fontWeight: 600, fontSize: '13px', lineHeight: 1.2 }}>
+          <p style={{ margin: '6px 0 0', color: '#a8cce8', fontWeight: 600, fontSize: '16px', lineHeight: 1.2 }}>
             {slate.theme ? `"${slate.theme}"` : (slate.clubSubtitle || 'Club Meeting Theme')}
           </p>
         </div>

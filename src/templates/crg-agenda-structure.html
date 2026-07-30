@@ -23,80 +23,68 @@
   .agenda-table {
     width: 100%;
     border-collapse: collapse;
-    /* auto so time column sizes to its content */
-    table-layout: auto;
+    table-layout: fixed;
   }
 
-  /* Header */
-  .agenda-table thead tr th {
-    padding: 3pt 6pt 4pt 6pt;
-    font-size: 11pt;
-    font-weight: 700;
-    color: #1a5fa8;
-    text-align: left;
-    border-bottom: 2px solid #1a5fa8;
-    white-space: nowrap;
-  }
-  .agenda-table thead tr th.th-time    { padding-right: 12pt; }
-  .agenda-table thead tr th.th-program { width: 99%; }
-  .agenda-table thead tr th.th-acct    { text-align: right; white-space: nowrap; }
+  /* Fixed column widths via colgroup */
+  .col-time { width: 95px; }
+  .col-prog { /* fills remaining space */ }
+  .col-acct { width: 130px; }
 
-  /* ── Segment rows shared ── */
+  /* ── Shared row styles ── */
   .seg-main td,
-  .seg-sub  td {
+  .seg-sub td {
     vertical-align: top;
     border: none;
     line-height: 1.4;
+    padding: 0 4pt 0 0;
   }
 
-  /* ── Main segment row ── */
-  /* .seg-main td { padding: 4pt 6pt 0pt 6pt; } */
+  /* ── Main heading row ── */
+  .seg-main td { padding-top: 4pt; }
 
   .seg-main .td-time {
     font-weight: 700;
     font-size: 11pt;
-    white-space: nowrap;
     color: #111;
-    padding-right: 2pt;
+    padding-right: 8pt;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .seg-main .td-program {
     font-weight: 700;
     font-size: 11pt;
     color: #111;
+    word-wrap: break-word;
   }
   .seg-main .td-acct {
     font-weight: 400;
     font-size: 11pt;
     text-align: right;
-    white-space: nowrap;
     color: #111;
-    padding-left: 8pt;
+    word-wrap: break-word;
   }
 
   /* ── Sub-item row ── */
-  .seg-sub td { padding: 1pt 6pt 0pt 6pt; }
-
   .seg-sub .td-time {
     font-size: 11pt;
-    white-space: nowrap;
-    padding-right: 12pt;
   }
   .seg-sub .td-program {
     font-weight: 400;
     font-size: 11pt;
     color: #333;
-    padding-left: 16pt;
+    padding-left: 12pt;
+    word-wrap: break-word;
   }
   .seg-sub .td-acct {
     font-weight: 400;
     font-size: 11pt;
     text-align: right;
-    white-space: nowrap;
     color: #333;
-    padding-left: 8pt;
+    word-wrap: break-word;
   }
 
-  /* Spacer between section groups */
+  /* Gap between sections */
   .seg-gap td {
     height: 6pt;
     border: none;
@@ -113,6 +101,11 @@
 {{THEME_SECTION}}
 
 <table class="agenda-table">
+  <colgroup>
+    <col class="col-time" />
+    <col class="col-prog" />
+    <col class="col-acct" />
+  </colgroup>
   <tbody>
     {{AGENDA_ROWS}}
   </tbody>

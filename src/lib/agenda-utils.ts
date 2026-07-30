@@ -26,7 +26,7 @@ export const DEFAULT_CRG_SLATE: MeetingSlate = {
   clubName: 'CRG TOASTMASTERS',
   clubSubtitle: 'Run by Runners',
   clubMission:
-    'We provide a supportive and positive learning experience in which members are empowered to develop communication and leadership skills, resulting in greater self confidence and personal growth',
+    'We provide a supportive and positive learning experience in which members are empowered to develop communication and leadership skills, resulting in greater self confidence and personal growth.',
   officers: DEFAULT_CLUB_OFFICERS,
   rolePlayers: {
     tmod: '',
@@ -83,14 +83,7 @@ export function minutesToTimeStr(minutes: number, includePeriod: boolean = true)
 }
 
 export function formatTimeRange(startMins: number, endMins: number): string {
-  const startPeriod = startMins >= 12 * 60 && startMins < 24 * 60 ? 'PM' : 'AM';
-  const endPeriod = endMins >= 12 * 60 && endMins < 24 * 60 ? 'PM' : 'AM';
-
-  if (startPeriod === endPeriod) {
-    return `${minutesToTimeStr(startMins, false)}–${minutesToTimeStr(endMins, true)}`;
-  } else {
-    return `${minutesToTimeStr(startMins, true)}–${minutesToTimeStr(endMins, true)}`;
-  }
+  return `${minutesToTimeStr(startMins, true)}–${minutesToTimeStr(endMins, true)}`;
 }
 
 /**
@@ -135,7 +128,7 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
 
   // 0. Networking (optional)
   if (slate.includeNetworking !== false) {
-    addSeg(15, 'Networking Session', saa, 'opening', [
+    addSeg(15, 'Networking Session', '', 'opening', [
       { program: 'Meet fellow members and guests' },
       { program: 'Light refreshments & introductions' },
     ]);
@@ -233,8 +226,9 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
   addSeg(remainingMins, 'Meeting Awards, Feedback & Closing', po, 'closing', [
     { program: 'Best Speaker, Best Evaluator, Best Table Topics awards' },
     { program: 'General feedback & announcements' },
-    { program: 'Meeting adjourned', accountability: saa },
   ], true);
+
+  addSeg(2, 'Meeting Adjourned', po, 'closing', [], true);
 
   return segments.map(seg => {
     const startM = timeToMinutes(seg.timeStart);

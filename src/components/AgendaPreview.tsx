@@ -14,7 +14,7 @@ interface AgendaPreviewProps {
 
 const A4_W = 794;
 const A4_H = 1123;
-const SIDEBAR_W = 205;
+const SIDEBAR_W = 220;
 
 // ─── Header (right-column content) ──────────────────────────────────────────
 const AgendaHeader: React.FC<{ slate: MeetingSlate }> = ({ slate }) => {
@@ -36,7 +36,7 @@ const AgendaHeader: React.FC<{ slate: MeetingSlate }> = ({ slate }) => {
       <span style={{ position:'absolute', bottom:8, left:8,  width:16, height:16, borderBottom:'2px solid #6ab0d8', borderLeft:'2px solid #6ab0d8'  }} />
       <span style={{ position:'absolute', bottom:8, right:8, width:16, height:16, borderBottom:'2px solid #6ab0d8', borderRight:'2px solid #6ab0d8' }} />
       <img src={tmLogo} alt="Toastmasters"
-        style={{ width:84, height:84, borderRadius:'50%', objectFit:'contain', flexShrink:0, marginLeft:14 }} />
+        style={{ width:100, height:84, borderRadius:'50%', objectFit:'contain', flexShrink:0, marginLeft:14 }} />
       <div style={{ flex:1, textAlign:'right' }}>
         <p style={{ margin:0, color:'#fff', fontWeight:700, fontSize:22, fontFamily:'Arial,sans-serif', lineHeight:1.2 }}>{clubLine}</p>
         <p style={{ margin:'4px 0 0', color:'#a8cce8', fontWeight:600, fontSize:14, fontFamily:'Arial,sans-serif', lineHeight:1.2 }}>{subLine}</p>
@@ -78,7 +78,7 @@ const SidebarContent: React.FC<{ slate: MeetingSlate }> = ({ slate }) => (
 
 // ─── Agenda rows (screen preview use) ────────────────────────────────────────
 const AgendaTable: React.FC<{ segments: AgendaSegment[]; themeHtml: string }> = ({ segments, themeHtml }) => (
-  <div style={{ flex:1, minWidth:0, padding:'12px 20px 18px 16px', fontFamily:'Arial,sans-serif' }}>
+  <div style={{ flex:1, minWidth:0, padding:'20px 20px 18px 16px', fontFamily:'Arial,sans-serif' }}>
     {themeHtml && (
       <p style={{ fontStyle:'italic', margin:'0 0 7pt', color:'#444', fontSize:'10.5pt' }}>{themeHtml}</p>
     )}
@@ -141,7 +141,7 @@ const PageCard: React.FC<{
     </div>
     {/* Body */}
     <div style={{ display:'flex', flex:1, minHeight:0, overflow:'hidden' }}>
-      <div style={{ width:SIDEBAR_W, minWidth:SIDEBAR_W, flexShrink:0, borderRight:'1px solid #dce6f0' }}>
+      <div style={{ width:SIDEBAR_W, minWidth:SIDEBAR_W, flexShrink:0, borderRight:'1px solid #dce6f0', paddingTop:8 }}>
         <SidebarContent slate={slate} />
       </div>
       <AgendaTable segments={segments} themeHtml={pageNum === 1 ? themeHtml : ''} />
@@ -160,8 +160,8 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<AgendaSegment[][]>([timeline]);
 
-  const HEADER_H = 128;
-  const BODY_PAD = 50;   // top (12) + bottom (24) padding + page-number area
+  const HEADER_H = 136;
+  const BODY_PAD = 50;   // top (12) + bottom (24) padding
   const USABLE_H = A4_H - HEADER_H - BODY_PAD;
 
   const buildPages = useCallback(() => {
@@ -174,11 +174,14 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
     let used = 0;
     for (let i = 0; i < timeline.length; i++) {
       const h = rows[i]?.getBoundingClientRect().height || rows[i]?.offsetHeight || 0;
-      const needed = h + (cur.length > 0 ? 5 : 0);
+      const gap = cur.length > 0 ? 5 : 0;
+      // Add a per-segment safety buffer to account for render vs measurement differences
+      const buffer = 6;
+      const needed = h + gap + buffer;
       if (used + needed > USABLE_H && cur.length > 0) {
-        result.push(cur); cur = [timeline[i]]; used = h;
+        result.push(cur); cur = [timeline[i]]; used = h + buffer;
       } else {
-        cur.push(timeline[i]); used += needed;
+        cur.push(timeline[i]); used += h + gap + buffer;
       }
     }
     if (cur.length > 0) result.push(cur);

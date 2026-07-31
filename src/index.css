@@ -80,7 +80,7 @@
     border: none !important;
     border-radius: 0 !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 12px 12px 24px 12px !important;
     /* Keep flex column layout intact */
     display: flex !important;
     flex-direction: column !important;

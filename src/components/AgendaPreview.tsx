@@ -52,7 +52,7 @@ const TealRule: React.FC = () => (
 
 // ─── Sidebar content ─────────────────────────────────────────────────────────
 const SidebarContent: React.FC<{ slate: MeetingSlate }> = ({ slate }) => (
-  <div style={{ padding:'12px 11px 18px 13px', fontSize:'10pt', fontFamily:'Arial,sans-serif', color:'#111', lineHeight:1.45, overflowWrap:'break-word' }}>
+  <div style={{ padding:'12px 11px 18px 20px', fontSize:'10pt', fontFamily:'Arial,sans-serif', color:'#111', lineHeight:1.45, overflowWrap:'break-word' }}>
     <p style={{ fontWeight:700, margin:'0 0 12px', fontSize:'11.5pt' }}>{slate.date || 'Month, Day YYYY'}</p>
     {slate.officers.map((off, i) => (
       <div key={i} style={{ marginBottom:10 }}>
@@ -78,7 +78,7 @@ const SidebarContent: React.FC<{ slate: MeetingSlate }> = ({ slate }) => (
 
 // ─── Agenda rows (screen preview use) ────────────────────────────────────────
 const AgendaTable: React.FC<{ segments: AgendaSegment[]; themeHtml: string }> = ({ segments, themeHtml }) => (
-  <div style={{ flex:1, minWidth:0, padding:'12px 13px 18px 16px', fontFamily:'Arial,sans-serif' }}>
+  <div style={{ flex:1, minWidth:0, padding:'12px 20px 18px 16px', fontFamily:'Arial,sans-serif' }}>
     {themeHtml && (
       <p style={{ fontStyle:'italic', margin:'0 0 7pt', color:'#444', fontSize:'10.5pt' }}>{themeHtml}</p>
     )}
@@ -132,7 +132,7 @@ const PageCard: React.FC<{
   <div className="agenda-print-page" style={{
     width: A4_W, height: A4_H, background:'#fff',
     boxShadow:'0 4px 28px 0 rgba(30,58,95,0.13)', border:'1px solid #c8d6e5',
-    borderRadius:3, display:'flex', flexDirection:'column', overflow:'hidden', flexShrink:0, position:'relative',
+    borderRadius:3, display:'flex', flexDirection:'column', overflow:'hidden', flexShrink:0, position:'relative', padding:'12px 12px 24px 12px'
   }}>
     {/* Full-width header */}
     <div style={{ flexShrink:0 }}>
@@ -146,7 +146,6 @@ const PageCard: React.FC<{
       </div>
       <AgendaTable segments={segments} themeHtml={pageNum === 1 ? themeHtml : ''} />
     </div>
-    <div style={{ height:4, background:'linear-gradient(90deg,#0d7abf,#16a8d4)', flexShrink:0 }} />
     <div style={{ position:'absolute', bottom:10, right:14, fontSize:'8pt', color:'#aaa', fontFamily:'Arial,sans-serif' }}>
       {pageNum} / {totalPages}
     </div>
@@ -162,7 +161,7 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
   const [pages, setPages] = useState<AgendaSegment[][]>([timeline]);
 
   const HEADER_H = 128;
-  const BODY_PAD = 30;
+  const BODY_PAD = 50;   // top (12) + bottom (24) padding + page-number area
   const USABLE_H = A4_H - HEADER_H - BODY_PAD;
 
   const buildPages = useCallback(() => {

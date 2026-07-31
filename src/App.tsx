@@ -20,9 +20,8 @@ export default function App() {
   const [copied, setCopied] = useState(false);
 
   const handlePrint = () => {
-    // Format filename: Agenda_63_26thJuly2026.pdf
     const num = slate.meetingNumber.replace(/[^0-9]/g, '');
-    const rawDate = slate.date; // e.g. "26/07/2026"
+    const rawDate = slate.date;
     const ddmmyyyy = rawDate.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
     let formattedDate = rawDate.replace(/\//g, '');
     if (ddmmyyyy) {
@@ -84,7 +83,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-sans" style={{ background: 'var(--bg2)', color: 'var(--text)' }}>
+    <div className="min-h-screen flex flex-col font-sans app-root" style={{ background: 'var(--bg2)', color: 'var(--text)' }}>
       {/* Top Navbar */}
       <Navbar slate={slate} />
 

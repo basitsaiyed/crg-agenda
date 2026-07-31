@@ -1,44 +1,37 @@
-import agendaTemplateHtml from '../templates/crg-agenda-structure.html?raw';
+// This file is kept for any external consumers.
+// The AgendaPreview component renders directly via React now.
 import { MeetingSlate, AgendaSegment } from '../types';
 
-export function renderAgendaHtml(slate: MeetingSlate, timeline: AgendaSegment[]): string {
+export function renderAgendaRows(
+  slate: MeetingSlate,
+  timeline: AgendaSegment[]
+): { rowsHtml: string; themeHtml: string } {
   const themeHtml = slate.theme
-    ? `<p class="theme-line">Theme: &ldquo;${slate.theme}&rdquo;</p>`
+    ? `Theme: \u201c${slate.theme}\u201d`
     : '';
 
-  let agendaRowsHtml = '';
-
+  let rowsHtml = '';
   timeline.forEach((seg, idx) => {
-    // Gap row between every section
-    if (idx > 0) {
-      agendaRowsHtml += `<tr class="seg-gap"><td colspan="3"></td></tr>\n`;
-    }
-
-    // Start time only (strip end time range)
-    const startTime = seg.timeStart.split('–')[0].trim();
-    const acct = seg.accountability !== 'TBA' ? seg.accountability : '';
-
-    // Header row — bold time + bold program title + accountability
-    agendaRowsHtml += `<tr class="seg-main">
-  <td class="td-time">${startTime}</td>
-  <td class="td-program">${seg.program}</td>
-  <td class="td-acct">${acct}</td>
-</tr>\n`;
-
-    // Sub-item rows — indented, normal weight, name on right
-    if (seg.subItems && seg.subItems.length > 0) {
-      seg.subItems.forEach(sub => {
-        const subAcct = sub.accountability ?? '';
-        agendaRowsHtml += `<tr class="seg-sub">
-  <td class="td-time"></td>
-  <td class="td-program">${sub.program}</td>
-  <td class="td-acct">${subAcct}</td>
-</tr>\n`;
-      });
-    }
+    if (idx > 0) rowsHtml += `<tr><td colspan="3" style="height:5pt;padding:0;border:none"></td></tr>`;
+    const t = seg.timeStart.split('–')[0].trim();
+    const a = seg.accountability !== 'TBA' ? seg.accountability : '';
+    rowsHtml += `<tr>
+      <td style="font-weight:700;font-size:10.5pt;color:#111;padding:3pt 7pt 0 0;vertical-align:top;white-space:nowrap;font-family:Arial,sans-serif">${t}</td>
+      <td style="font-weight:700;font-size:10.5pt;color:#111;padding:3pt 3pt 0 0;vertical-align:top;word-break:break-word;font-family:Arial,sans-serif">${seg.program}</td>
+      <td style="font-weight:400;font-size:10.5pt;color:#111;padding:3pt 0 0 0;vertical-align:top;text-align:right;word-break:break-word;font-family:Arial,sans-serif">${a}</td>
+    </tr>`;
+    seg.subItems?.forEach(sub => {
+      rowsHtml += `<tr>
+        <td style="font-size:10.5pt;padding:0 7pt 0 0;vertical-align:top;font-family:Arial,sans-serif"></td>
+        <td style="font-weight:400;font-size:10.5pt;color:#333;padding:0 3pt 0 11pt;vertical-align:top;word-break:break-word;font-family:Arial,sans-serif">${sub.program}</td>
+        <td style="font-weight:400;font-size:10.5pt;color:#333;padding:0;vertical-align:top;text-align:right;word-break:break-word;font-family:Arial,sans-serif">${sub.accountability ?? ''}</td>
+      </tr>`;
+    });
   });
+  return { rowsHtml, themeHtml };
+}
 
-  return agendaTemplateHtml
-    .replace('{{THEME_SECTION}}', themeHtml)
-    .replace('{{AGENDA_ROWS}}', agendaRowsHtml);
+export function renderAgendaHtml(slate: MeetingSlate, timeline: AgendaSegment[]): string {
+  const { rowsHtml, themeHtml } = renderAgendaRows(slate, timeline);
+  return themeHtml + rowsHtml;
 }

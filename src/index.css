@@ -27,77 +27,74 @@
   }
 }
 
-/* ── Agenda HTML container ── */
-.agenda-html-container {
-  width: 100%;
-  overflow: visible;
-}
+/* ── Screen: hide the print-only table ── */
+.agenda-print-only  { display: none !important; }
+.agenda-screen-only { display: flex !important; }
 
-/* ── Print styles ── */
+/* ─────────────────────────────────────────────────────────────
+   PRINT
+   Strategy: show only the .agenda-print-only table.
+   Its <thead> contains the header — browsers repeat <thead>
+   on every page natively. No position:fixed needed.
+───────────────────────────────────────────────────────────── */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 0;
-    /* suppress browser-injected date/title/URL headers and footers */
-    margin-top: 10mm;
-    @top-left   { content: none; }
-    @top-center { content: none; }
-    @top-right  { content: none; }
-    @bottom-left   { content: none; }
-    @bottom-center { content: none; }
-    @bottom-right  { content: none; }
+    margin: 8mm 8mm 10mm 8mm;
   }
 
-  @page :first {
-    margin-top: 0;
-  }
-
-  html, body {
-    background: white !important;
-    color: black !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
+  /* Reset body — force pure white, no grey bleed.
+     The .app-root inline style uses var(--bg2) which beats stylesheet rules,
+     so we override it with a higher-specificity rule here. */
+  html, body,
   #root,
-  #root > div,
-  main {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
+  #root > *,
+  .app-root,
+  main,
   .overflow-x-auto,
   .pb-4 {
+    background: white !important;
+    background-color: white !important;
     padding: 0 !important;
-    overflow: visible !important;
-  }
-
-  .print-page {
-    box-shadow: none !important;
     margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
+    font-family: Arial, sans-serif !important;
   }
 
-  /* Body content between header and footer gets left/right margin */
-  .print-body-content {
-    padding: 4mm 12mm 8mm 12mm !important;
+  /* Hide ALL app chrome */
+  .no-print                    { display: none !important; }
+  nav, header, footer          { display: none !important; }
+  main                         { padding: 0 !important; margin: 0 !important; }
+  #root > div > *:not(main)    { display: none !important; }
+
+  /* Hide the preview page cards */
+  .agenda-screen-only { display: none !important; }
+
+  /* Show only the print table */
+  .agenda-print-only {
+    display: block !important;
+    width: 100% !important;
   }
+
+  /* thead repeats on every page automatically */
+  .agenda-print-only table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto !important;
+  }
+  .agenda-print-only thead {
+    display: table-header-group !important;
+  }
+  .agenda-print-only tbody {
+    display: table-row-group !important;
+  }
+
+  /* Don't split a segment row group across pages */
+  .agenda-print-only tr { page-break-inside: avoid !important; }
 
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
-
-  table { page-break-inside: auto; }
-  tr    { page-break-inside: avoid; page-break-after: auto; }
 }

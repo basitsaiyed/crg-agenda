@@ -31,67 +31,70 @@
 .agenda-print-only  { display: none !important; }
 .agenda-screen-only { display: flex !important; }
 
-/* ─────────────────────────────────────────────────────────────
-   PRINT
-   Strategy: show only the .agenda-print-only table.
-   Its <thead> contains the header — browsers repeat <thead>
-   on every page natively. No position:fixed needed.
-───────────────────────────────────────────────────────────── */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 8mm 8mm 10mm 8mm;
+    margin: 0;
   }
 
-  /* Reset body — force pure white, no grey bleed.
-     The .app-root inline style uses var(--bg2) which beats stylesheet rules,
-     so we override it with a higher-specificity rule here. */
+  /* 1. Nuke all backgrounds/padding on every wrapper so nothing bleeds */
   html, body,
-  #root,
-  #root > *,
-  .app-root,
-  main,
-  .overflow-x-auto,
-  .pb-4 {
+  #root, #root > *, .app-root,
+  main, .overflow-x-auto, .pb-4 {
     background: white !important;
     background-color: white !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
-    font-family: Arial, sans-serif !important;
+    height: auto !important;
   }
 
-  /* Hide ALL app chrome */
-  .no-print                    { display: none !important; }
-  nav, header, footer          { display: none !important; }
-  main                         { padding: 0 !important; margin: 0 !important; }
-  #root > div > *:not(main)    { display: none !important; }
+  /* 2. Hide all app chrome */
+  .no-print,
+  nav, footer              { display: none !important; }
+  main                     { padding: 0 !important; margin: 0 !important; }
+  #root > div > *:not(main){ display: none !important; }
 
-  /* Hide the preview page cards */
-  .agenda-screen-only { display: none !important; }
-
-  /* Show only the print table */
-  .agenda-print-only {
+  /* 3. The stack wrapper: block so cards flow vertically */
+  .agenda-screen-only {
     display: block !important;
     width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
   }
 
-  /* thead repeats on every page automatically */
-  .agenda-print-only table {
+  /* 4. Each card = exactly one printed A4 page */
+  .agenda-print-page {
+    /* Fill the full page — no fixed pixel width in print, use 100% */
     width: 100% !important;
-    border-collapse: collapse !important;
-    page-break-inside: auto !important;
-  }
-  .agenda-print-only thead {
-    display: table-header-group !important;
-  }
-  .agenda-print-only tbody {
-    display: table-row-group !important;
+    height: 100vh !important;        /* browser maps this to one page */
+    min-height: 0 !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    /* Break AFTER each card so the next card starts on a fresh page */
+    page-break-after: always !important;
+    break-after: page !important;
+    /* Remove screen decorations */
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    /* Keep flex column layout intact */
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    background: white !important;
   }
 
-  /* Don't split a segment row group across pages */
-  .agenda-print-only tr { page-break-inside: avoid !important; }
+  /* Last card: no trailing page break */
+  .agenda-print-page:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
 
+  /* 5. Preserve all colours exactly */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;

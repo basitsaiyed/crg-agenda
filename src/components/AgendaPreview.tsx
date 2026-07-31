@@ -18,8 +18,11 @@ const SIDEBAR_W = 220;
 
 // ─── Header (right-column content) ──────────────────────────────────────────
 const AgendaHeader: React.FC<{ slate: MeetingSlate }> = ({ slate }) => {
-  const clubLine = `${slate.clubName || 'Club Name'} ${slate.meetingNumber || ''}`.trim();
-  const subLine  = slate.theme ? `"${slate.theme}"` : (slate.clubSubtitle || 'Run by Runners');
+  const clubLine = `${slate.clubName || 'Club Name'}${slate.clubNumber ? ` · ${slate.clubNumber}` : ''}`;
+  const meetingPart = slate.meetingNumber ? ` · Meeting ${slate.meetingNumber}` : '';
+  const subLine = slate.theme
+    ? `"${slate.theme}"${meetingPart}`
+    : `${slate.clubSubtitle || 'Run by Runners'}${meetingPart}`;
   return (
     <div style={{
       background: 'linear-gradient(135deg,#1a6aaa 0%,#0d4a8a 45%,#0a2a5e 100%)',
@@ -155,7 +158,7 @@ const PageCard: React.FC<{
 // ─── Main component ───────────────────────────────────────────────────────────
 export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
   const timeline = calculateAgendaTimeline(slate);
-  const themeHtml = slate.theme ? `Theme: \u201c${slate.theme}\u201d` : '';
+  const themeHtml = slate.theme ? `Theme: \u201c${slate.theme}\u201d` : `Theme: \u201cTo Be Announced\u201d`;
 
   const measureRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<AgendaSegment[][]>([timeline]);
@@ -173,7 +176,7 @@ export const AgendaPreview: React.FC<AgendaPreviewProps> = ({ slate }) => {
     let cur: AgendaSegment[] = [];
     let used = 0;
     for (let i = 0; i < timeline.length; i++) {
-      const h = rows[i]?.getBoundingClientRect().height || rows[i]?.offsetHeight || 0;
+      const h = (rows[i] as HTMLElement)?.getBoundingClientRect().height || (rows[i] as HTMLElement)?.offsetHeight || 0;
       const gap = cur.length > 0 ? 5 : 0;
       // Add a per-segment safety buffer to account for render vs measurement differences
       const buffer = 6;

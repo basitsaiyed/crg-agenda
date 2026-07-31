@@ -23,7 +23,8 @@ export const DEFAULT_CRG_SLATE: MeetingSlate = {
   venue: 'Training Room, First Floor, Gandhinagar GIFT City Fire Department, Gandhinagar, Gujarat 382421, India',
   venueUrl: 'https://www.toastmasters.org/Find-a-Club/28678751-crg-toastmasters-club',
   theme: '',
-  clubName: 'CRG TOASTMASTERS',
+  clubName: 'CRG Toastmasters Club',
+  clubNumber: '28678751',
   clubSubtitle: 'Run by Runners',
   clubMission:
     'We provide a supportive and positive learning experience in which members are empowered to develop communication and leadership skills, resulting in greater self confidence and personal growth.',
@@ -116,15 +117,18 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
     currentMins = endMins;
   };
 
-  const { rolePlayers, speakers } = slate;
+  const { rolePlayers, speakers, officers } = slate;
   const tmod = rolePlayers.tmod || 'TMOD';
   const ge = rolePlayers.generalEvaluator || 'General Evaluator';
   const ttm = rolePlayers.tableTopicsMaster || 'Table Topics Master';
   const grammarian = rolePlayers.grammarian || 'Grammarian';
   const timer = rolePlayers.timer || 'Timer';
   const ahCounter = rolePlayers.ahCounter || 'Ah Counter';
-  const saa = rolePlayers.sergeantAtArms || 'Sergeant-at-Arms';
-  const po = rolePlayers.presidingOfficer || 'Presiding Officer';
+
+  const saaOfficer = officers.find(o => /sergeant/i.test(o.position))?.name;
+  const presidentOfficer = officers.find(o => /president/i.test(o.position))?.name;
+  const saa = rolePlayers.sergeantAtArms || saaOfficer || 'Sergeant-at-Arms';
+  const po  = rolePlayers.presidingOfficer || presidentOfficer || 'Presiding Officer';
 
   // 0. Networking (optional)
   if (slate.includeNetworking !== false) {
@@ -265,38 +269,50 @@ export function parseSlateTextLocally(text: string): Partial<MeetingSlate> {
   const timeMatch = text.match(/Time:\s*(\d{1,2}:\d{2}\s*(?:AM|PM)?)\s*[–-]\s*(\d{1,2}:\d{2}\s*(?:AM|PM)?)/i);
   if (timeMatch) {
     result.startTime = timeMatch[1].trim();
-    result.endTime = timeMatch[2].trim();
+    result.endTime   = timeMatch[2].trim();
   }
 
   const venueMatch = text.match(/Venue:\s*([^\n]+)/i);
   if (venueMatch) result.venue = venueMatch[1].trim();
 
-  const themeMatch = text.match(/Theme\s*[-–:]*\s*([^\)\n]+)/i);
-  if (themeMatch) result.theme = themeMatch[1].trim();
+  const themeMatch = text.match(/Theme\s*[-–:]\s*([^\n)]+)/i);
+  if (themeMatch) result.theme = themeMatch[1].replace(/\s*\([^)]*\)\s*/g, '').trim();
+
+  // Helper: extract name after a role label, stripping emojis, parenthetical suffixes and extra whitespace
+  const extractName = (line: string, rolePattern: RegExp): string => {
+    // Remove all emoji characters first
+    const clean = line.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').trim();
+    const match = clean.match(rolePattern);
+    if (!match) return '';
+    // Strip parenthetical suffixes like (Gavel), (Guest), (HCTC), (IST) etc.
+    return match[1].replace(/\s*\([^)]*\)\s*/g, '').trim();
+  };
 
   for (const line of lines) {
-    if (/TMOD|Toastmaster of the Day/i.test(line)) {
-      const name = line.replace(/.*(?:TMOD|Toastmaster of the Day)\s*[:–-]\s*([^\(\n]+).*/i, '$1').trim();
+    if (/TMOD|Toastmaster of the Day/i.test(line) && !/Table Topics/i.test(line)) {
+      // Match "TMOD: Name" — theme part after dash/hyphen is separate
+      const name = extractName(line, /(?:TMOD|Toastmaster of the Day)\s*[:–-]\s*([^(–\-\n]+)/i);
       if (name && result.rolePlayers) result.rolePlayers.tmod = name;
     }
-    if (/General Evaluator|GE/i.test(line) && !/Transition/i.test(line)) {
-      const name = line.replace(/.*(?:General Evaluator|GE)\s*[:–-]\s*([^\(\n]+).*/i, '$1').trim();
+    if (/General Evaluator|(?<![A-Za-z])GE(?![A-Za-z])/i.test(line) && !/Transition|Introduces/i.test(line)) {
+      const name = extractName(line, /(?:General Evaluator|GE)\s*[:–-]\s*([^\n]+)/i);
       if (name && result.rolePlayers) result.rolePlayers.generalEvaluator = name;
     }
     if (/Table Topics Master|TTM/i.test(line)) {
-      const name = line.replace(/.*(?:Table Topics Master|TTM)\s*[:–-]\s*([^\(\n]+).*/i, '$1').trim();
+      // Pattern: "Table Topics Master (TTM): Sainam (Gavel)" — skip past the (TTM) label
+      const name = extractName(line, /(?:Table Topics Master|TTM)\s*(?:\([^)]*\)\s*)?[:–-]\s*([^\n]+)/i);
       if (name && result.rolePlayers) result.rolePlayers.tableTopicsMaster = name;
     }
     if (/Grammarian/i.test(line)) {
-      const name = line.replace(/.*Grammarian\s*[:–-]\s*([^\(\n]+).*/i, '$1').trim();
+      const name = extractName(line, /Grammarian\s*[:–-]\s*([^\n]+)/i);
       if (name && result.rolePlayers) result.rolePlayers.grammarian = name;
     }
-    if (/Timer/i.test(line)) {
-      const name = line.replace(/.*Timer\s*[:–-]\s*([^\(\n]+).*/i, '$1').trim();
+    if (/\bTimer\b/i.test(line) && !/Report|Call for/i.test(line)) {
+      const name = extractName(line, /Timer\s*[:–-]\s*([^\n]+)/i);
       if (name && result.rolePlayers) result.rolePlayers.timer = name;
     }
     if (/Ah\s*Counter/i.test(line)) {
-      const name = line.replace(/.*Ah\s*Counter\s*[:–-]\s*([^\(\n]+).*/i, '$1').trim();
+      const name = extractName(line, /Ah\s*Counter\s*[:–-]\s*([^\n]+)/i);
       if (name && result.rolePlayers) result.rolePlayers.ahCounter = name;
     }
   }

@@ -386,6 +386,22 @@ export const MeetingEditor: React.FC<MeetingEditorProps> = ({
               />
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={`${labelCls} flex items-center gap-1`} style={labelStyle}>
+                  <Award className="w-3.5 h-3.5" style={{ color: 'var(--blue)' }} /> Club Number
+                </label>
+                <input
+                  type="text"
+                  value={slate.clubNumber || ''}
+                  onChange={(e) => updateField('clubNumber', e.target.value)}
+                  placeholder="28678751"
+                  className={inputCls}
+                  style={inputStyle}
+                />
+              </div>
+            </div>
+
             <div
               className="pt-3"
               style={{ borderTop: '1px solid var(--border)' }}

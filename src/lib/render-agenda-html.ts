@@ -8,7 +8,7 @@ export function renderAgendaRows(
 ): { rowsHtml: string; themeHtml: string } {
   const themeHtml = slate.theme
     ? `Theme: \u201c${slate.theme}\u201d`
-    : '';
+    : `Theme: \u201cTo Be Announced\u201d`;
 
   let rowsHtml = '';
   timeline.forEach((seg, idx) => {

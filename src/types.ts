@@ -63,6 +63,7 @@ export interface MeetingSlate {
   venueUrl: string;
   theme: string;
   clubName: string;
+  clubNumber: string;
   clubSubtitle: string;
   clubMission: string;
   officers: ClubOfficer[];

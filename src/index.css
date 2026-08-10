@@ -35,14 +35,14 @@
 /* Page card — A4 screen card */
 .agenda-page-card {
   width: 794px;
-  height: 1123px;
+  min-height: 1123px;
   background: #fff;
   box-shadow: 0 4px 28px 0 rgba(30, 58, 95, 0.13);
   border: 1px solid #c8d6e5;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   flex-shrink: 0;
   position: relative;
   padding: 12px 12px 24px 12px;
@@ -294,29 +294,6 @@
   font-size: 8pt;
   color: #aaa;
   font-family: Arial, sans-serif;
-}
-
-/* Measurement sandbox (off-screen, hidden) */
-.agenda-measure-sandbox {
-  position: fixed;
-  top: 0;
-  left: -9999px;
-  visibility: hidden;
-  pointer-events: none;
-  font-family: Arial, sans-serif;
-  font-size: 10.5pt;
-}
-
-.agenda-measure-seg {
-  padding: 3pt 0;
-}
-
-.agenda-measure-seg__title {
-  font-weight: 700;
-}
-
-.agenda-measure-seg__sub {
-  padding-left: 11px;
 }
 
 /* ── Screen: hide the print-only table ── */

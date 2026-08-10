@@ -153,7 +153,6 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
     { program: 'Introduce TAG team roles' },
   ], true);
 
-  const tagTeam = [ge, timer, ahCounter, grammarian].filter(Boolean).join(' / ');
   addSeg(10, "General Evaluator Introduces the TAG Team", ge, 'opening', [
     { program: 'Ah-Counter objectives', accountability: ahCounter },
     { program: 'Grammarian objectives', accountability: grammarian },

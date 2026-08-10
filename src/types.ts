@@ -52,6 +52,10 @@ export interface AgendaSegment {
   category: AgendaCategory;
   isCustomizable?: boolean;
   subItems?: AgendaSubItem[];
+  /** When set, the timeline calculator uses this instead of the auto-computed duration */
+  durationOverride?: number;
+  /** When true, the start time of this segment is pinned — preceding unlocked segments compress to fit */
+  isTimeLocked?: boolean;
 }
 
 export interface MeetingSlate {

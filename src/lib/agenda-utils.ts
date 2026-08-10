@@ -225,13 +225,16 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
   // 6. Closing
   addSeg(2, 'TMOD Closing – Handover to Presiding Officer', tmod, 'transition', []);
 
-  const targetEndMins = timeToMinutes(slate.endTime);
-  const remainingMins = Math.max(targetEndMins - currentMins, 5);
-  addSeg(remainingMins, 'Meeting Awards, Feedback & Closing', po, 'closing', [
+  const targetEndMins = timeToMinutes(slate.endTime) + (speakers.length > 3 ? 15 : 0);
+  // Awards segment: fills between now and 2 min before target (min 3 min)
+  const awardsMins = Math.max(targetEndMins - currentMins - 2, 3);
+  addSeg(awardsMins, 'Meeting Awards, Feedback & Closing', po, 'closing', [
     { program: 'Best Speaker, Best Evaluator, Best Table Topics awards' },
     { program: 'General feedback & announcements' },
   ], true);
 
+  // Force adjourned to start exactly 2 min before targetEndMins
+  currentMins = targetEndMins - 2;
   addSeg(2, 'Meeting Adjourned', po, 'closing', [], true);
 
   return segments.map(seg => {

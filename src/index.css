@@ -337,9 +337,9 @@
   .agenda-print-page {
     /* Fill the full page — no fixed pixel width in print, use 100% */
     width: 100% !important;
-    height: 100vh !important;        /* browser maps this to one page */
+    height: 297mm !important;        /* explicit A4 height — avoids 100vh browser-chrome issue */
     min-height: 0 !important;
-    max-height: 100vh !important;
+    max-height: 297mm !important;
     overflow: hidden !important;
     /* Break AFTER each card so the next card starts on a fresh page */
     page-break-after: always !important;

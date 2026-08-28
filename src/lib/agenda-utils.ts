@@ -178,7 +178,6 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
       addSeg(slotDuration + 2, `Speaker ${spkNum}${projectTitle}`, spkName, 'speech', [
         { program: `Speech Objective by Evaluator ${spkNum}`, accountability: evalName },
         { program: `${spkName}'s prepared speech` },
-        { program: 'Call for Timer\'s Report', accountability: timer },
       ], true);
     });
   }
@@ -187,7 +186,6 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
   const ttDuration = slate.tableTopicsDuration || 20;
   addSeg(ttDuration + 2, 'TMOD Introduces Table Topics', tmod, 'table-topics', [
     { program: 'Table Topics session', accountability: ttm },
-    { program: 'Call for Timer\'s Report', accountability: timer },
     { program: 'Returns control to TMOD', accountability: tmod },
   ], true);
 
@@ -199,13 +197,11 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
       program: `Speaker ${i + 1} Evaluation (3:30)`,
       accountability: s.evaluatorName || `Evaluator ${i + 1}`,
     }));
-    evalSubs!.push({ program: 'Recap Evaluators & Call for Votes' });
     const evalTotalTime = Math.max(Math.round(speakers.length * 3.5), 5);
     addSeg(evalTotalTime, 'General Evaluator Calls for Evaluations', ge, 'evaluation', evalSubs, true);
   } else {
     addSeg(7, 'General Evaluator Calls for Evaluations', ge, 'evaluation', [
       { program: 'Speech evaluations (3:30 each)' },
-      { program: 'Recap Evaluators & Call for Votes' },
     ], true);
   }
 
@@ -229,6 +225,8 @@ export function calculateAgendaTimeline(slate: MeetingSlate): AgendaSegment[] {
   const awardsMins = Math.max(targetEndMins - currentMins - 2, 3);
   addSeg(awardsMins, 'Meeting Awards, Feedback & Closing', po, 'closing', [
     { program: 'Best Speaker, Best Evaluator, Best Table Topics awards' },
+    { program: 'Best Auxiliary Role Player award' },
+    { program: 'Best Lead Role Player award' },
     { program: 'General feedback & announcements' },
   ], true);
 

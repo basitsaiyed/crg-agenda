@@ -11,6 +11,8 @@ import { SlateInputModal } from './components/SlateInputModal';
 import { DEFAULT_CRG_SLATE, calculateAgendaTimeline } from './lib/agenda-utils';
 import { MeetingSlate } from './types';
 import { FileText, Eye, Edit3, Sliders, Printer, Copy, Check } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function App() {
   const [slate, setSlate] = useState<MeetingSlate>(DEFAULT_CRG_SLATE);
@@ -19,7 +21,9 @@ export default function App() {
   const [showEditorTabs, setShowEditorTabs] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handlePrint = () => {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const buildFileName = () => {
     const num = slate.meetingNumber.replace(/[^0-9]/g, '');
     const rawDate = slate.date;
     const ddmmyyyy = rawDate.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
@@ -31,10 +35,78 @@ export default function App() {
       const yr = ddmmyyyy[3];
       formattedDate = `${day}th${mon}${yr}`;
     }
-    const prevTitle = document.title;
-    document.title = `Agenda_${num}_${formattedDate}`;
-    window.print();
-    setTimeout(() => { document.title = prevTitle; }, 2000);
+    return `Agenda_${num}_${formattedDate}`;
+  };
+
+  const handlePrint = async () => {
+    setIsExporting(true);
+    try {
+      const A4_W = 794;
+      const A4_H = 1123;
+
+      // ── Render a hidden off-screen clone at full 794px — no CSS transforms ──
+      // This is the only reliable way to get clean output on mobile, where the
+      // screen preview is scaled down via transform:scale().
+      const offscreen = document.createElement('div');
+      offscreen.style.cssText = [
+        'position:fixed',
+        'top:0',
+        'left:-9999px',
+        `width:${A4_W}px`,
+        'pointer-events:none',
+        'z-index:-1',
+        'background:#fff',
+      ].join(';');
+      document.body.appendChild(offscreen);
+
+      const sourceCards = document.querySelectorAll<HTMLElement>('.agenda-print-page');
+      const clones: HTMLElement[] = [];
+      sourceCards.forEach((card) => {
+        const clone = card.cloneNode(true) as HTMLElement;
+        clone.style.cssText = [
+          `width:${A4_W}px`,
+          `min-height:${A4_H}px`,
+          `max-height:${A4_H}px`,
+          'overflow:hidden',
+          'box-shadow:none',
+          'border:none',
+          'border-radius:0',
+          'margin:0',
+          'padding:12px 12px 24px 12px',
+          'box-sizing:border-box',
+          'display:flex',
+          'flex-direction:column',
+          'background:#fff',
+          'transform:none',
+        ].join(';');
+        offscreen.appendChild(clone);
+        clones.push(clone);
+      });
+
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pdfW = pdf.internal.pageSize.getWidth();
+      const pdfH = pdf.internal.pageSize.getHeight();
+
+      for (let i = 0; i < clones.length; i++) {
+        const canvas = await html2canvas(clones[i], {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          width: A4_W,
+          height: A4_H,
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.97);
+        if (i > 0) pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+      }
+
+      document.body.removeChild(offscreen);
+      pdf.save(`${buildFileName()}.pdf`);
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleCopyWhatsAppSummary = () => {
@@ -166,7 +238,7 @@ export default function App() {
               </span>
             </div>
 
-            <div className="overflow-x-auto pb-4">
+            <div className="w-full pb-4">
               <AgendaPreview slate={slate} />
             </div>
           </div>
@@ -228,11 +300,12 @@ export default function App() {
         {/* Export PDF */}
         <button
           onClick={handlePrint}
+          disabled={isExporting}
           className="flex items-center gap-1.5 text-white font-bold px-3 py-2 rounded-xl text-xs sm:text-sm transition cursor-pointer"
-          style={{ background: 'var(--green)' }}
+          style={{ background: isExporting ? '#4a8a6a' : 'var(--green)', opacity: isExporting ? 0.8 : 1 }}
         >
           <Printer className="w-4 h-4" />
-          <span className="hidden sm:inline">Export PDF</span>
+          <span className="hidden sm:inline">{isExporting ? 'Exporting…' : 'Export PDF'}</span>
         </button>
       </div>
 
